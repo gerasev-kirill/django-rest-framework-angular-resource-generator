@@ -16,6 +16,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         generator = schemas.SchemaGenerator()
         schema = generator.get_schema()
+        if not schema:
+            return
         converter = SchemaConverter()
 
         coffee = render_to_string(
