@@ -16,6 +16,10 @@ setup(
     long_description=README,
     author='Gerasev Kirill',
     author_email='gerasev.kirill@gmail.com',
+    install_requires=[
+        'coreapi',
+        'djangorestframework'
+    ],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
