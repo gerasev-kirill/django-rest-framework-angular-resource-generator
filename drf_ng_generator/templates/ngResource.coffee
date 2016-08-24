@@ -15,6 +15,13 @@ urlBaseHost = getHost(urlBase) || location.host
 
 angular.module("djServices", ['ngResource'])
 
+.config ($resourceProvider, $httpProvider)->
+    $resourceProvider.defaults.stripTrailingSlashes = false
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken'
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken'
+
+
+
 {% for modelName,conf in API.items %}
 
 .factory("{{modelName}}", [ "DjResource", (Resource)->
