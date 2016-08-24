@@ -22,7 +22,6 @@ class SchemaConverter:
         return s1
 
     def djangoUrlToAngular(self, url):
-        url = url.replace('{pk}', '{id}')
         url = url.replace('{', ':').replace('}', '')
         if url[-1]=='/':
             url += ' '
