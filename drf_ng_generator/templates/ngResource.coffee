@@ -20,7 +20,7 @@ angular.module("djServices", ['ngResource'])
 .factory("{{modelName}}", [ "DjResource", (Resource)->
     R = Resource(
         urlBase + "{{conf.commonUrl}}",{% if conf.hasIdInUrl %}
-        {pk: '@pk'},{% else %}
+        {id: '@id'},{% else %}
         {},{% endif %}
         { {% for actionName,actionConf in conf.api.items %}
             "{{actionName}}":{

@@ -22,6 +22,7 @@ class SchemaConverter:
         return s1
 
     def djangoUrlToAngular(self, url):
+        url = url.replace('{pk}', '{id}')
         url = url.replace('{', ':').replace('}', '')
         if url[-1]=='/':
             url += ' '
@@ -38,7 +39,7 @@ class SchemaConverter:
 
         for k,v in point.items():
             url = self.djangoUrlToAngular(v.url)
-            if url.find(':pk/')>-1:
+            if url.find(':id/')>-1:
                 has_id_in_url = True
             action = self.toCamelCase(k)
             data[action] = {
@@ -46,11 +47,11 @@ class SchemaConverter:
                 'method': v.action.upper(),
                 'contentType': v.encoding
             }
-            if k == 'destroy' and url.find(':pk/')>-1:
-                alias['deleteByPk'] = 'destroy'
-                alias['destroyByPk'] = 'destroy'
-            if k in ['retrieve', 'get'] and url.find(':pk/')>-1:
-                alias['findByPk'] = k
+            if k == 'destroy' and url.find(':id/')>-1:
+                alias['deleteById'] = 'destroy'
+                alias['destroyById'] = 'destroy'
+            if k in ['retrieve', 'get'] and url.find(':id/')>-1:
+                alias['findById'] = k
             if k.find('list')>-1:
                 data[action]['options']={
                     'isArray': 'true'
