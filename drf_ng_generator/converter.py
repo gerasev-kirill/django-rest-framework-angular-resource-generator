@@ -46,11 +46,11 @@ class SchemaConverter:
                 'method': v.action.upper(),
                 'contentType': v.encoding
             }
-            if k == 'destroy' and url.find(':id/')>-1:
-                alias['deleteById'] = 'destroy'
-                alias['destroyById'] = 'destroy'
-            if k in ['retrieve', 'get'] and url.find(':id/')>-1:
-                alias['findById'] = k
+            if k == 'destroy' and url.find(':pk/')>-1:
+                alias['deleteByPk'] = 'destroy'
+                alias['destroyByPk'] = 'destroy'
+            if k in ['retrieve', 'get'] and url.find(':pk/')>-1:
+                alias['findByPk'] = k
             if k.find('list')>-1:
                 data[action]['options']={
                     'isArray': 'true'
