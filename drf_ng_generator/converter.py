@@ -38,7 +38,7 @@ class SchemaConverter:
 
         for k,v in point.items():
             url = self.djangoUrlToAngular(v.url)
-            if url.find(':id/')>-1:
+            if url.find(':pk/')>-1:
                 has_id_in_url = True
             action = self.toCamelCase(k)
             data[action] = {
