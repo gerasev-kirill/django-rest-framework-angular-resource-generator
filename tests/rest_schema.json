@@ -1,0 +1,99 @@
+{
+    "userlist": {
+        "alias": {},
+        "api": {
+            "read": {
+                "url": "/userlist/",
+                "contentType": "",
+                "method": "GET"
+            }
+        },
+        "hasIdInUrl": false,
+        "commonUrl": "/userlist/"
+    },
+    "users": {
+        "alias": {
+            "destroyById": "destroy",
+            "deleteById": "destroy",
+            "findById": "retrieve"
+        },
+        "api": {
+            "retrieve": {
+                "url": "/users/:id/",
+                "contentType": "",
+                "method": "GET"
+            },
+            "create": {
+                "url": "/users/",
+                "contentType": "application/json",
+                "method": "POST"
+            },
+            "list": {
+                "url": "/users/",
+                "contentType": "",
+                "method": "GET",
+                "options": {
+                    "isArray": "true"
+                }
+            },
+            "update": {
+                "url": "/users/:id/",
+                "contentType": "application/json",
+                "method": "PUT"
+            },
+            "partialUpdate": {
+                "url": "/users/:id/",
+                "contentType": "application/json",
+                "method": "PATCH"
+            },
+            "testDetailRouteDecorator": {
+                "url": "/users/:id/test_detail_route_decorator/",
+                "contentType": "application/json",
+                "method": "PUT"
+            },
+            "testListRouteDecorator": {
+                "url": "/users/test_list_route_decorator/",
+                "contentType": "",
+                "method": "GET",
+                "options": {
+                    "isArray": "true"
+                }
+            },
+            "destroy": {
+                "url": "/users/:id/",
+                "contentType": "",
+                "method": "DELETE"
+            }
+        },
+        "hasIdInUrl": true,
+        "commonUrl": "/users/:id/"
+    },
+    "custom": {
+        "alias": {
+            "destroyById": "destroy",
+            "deleteById": "destroy"
+        },
+        "api": {
+            "testListRouteDecorator": {
+                "url": "/custom/test_list_route_decorator/",
+                "contentType": "",
+                "method": "GET",
+                "options": {
+                    "isArray": "true"
+                }
+            },
+            "destroy": {
+                "url": "/custom/:id/",
+                "contentType": "",
+                "method": "DELETE"
+            },
+            "testDetailRouteDecorator": {
+                "url": "/custom/:id/test_detail_route_decorator/",
+                "contentType": "",
+                "method": "PATCH"
+            }
+        },
+        "hasIdInUrl": true,
+        "commonUrl": "/custom/:id/"
+    }
+}

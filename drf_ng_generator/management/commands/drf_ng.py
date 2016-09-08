@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.template.loader import render_to_string
-from rest_framework import schemas
+from drf_ng_generator import schemas
 
 
 from drf_ng_generator.converter import SchemaConverter
