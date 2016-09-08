@@ -16,7 +16,16 @@ settings.configure(
             'django.contrib.sessions',
             'drf_ng_generator',
             'tests'
-        )
+        ),
+        TEMPLATES = [
+            {
+                'BACKEND': 'django.template.backends.django.DjangoTemplates',
+                'DIRS': [
+                    os.path.join(os.path.dirname(__file__), 'drf_ng_generator')
+                ],
+                'APP_DIRS': True
+            },
+        ]
 )
 
 try:
