@@ -1,7 +1,7 @@
 'use strict'
 
 urlBase = ''
-authHeader = 'authorization'
+authHeader = 'Authorization'
 
 getHost = (url)->
     m = url.match(/^(?:https?:)?\/\/([^\/]+)/)
@@ -24,7 +24,7 @@ angular.module("djServices", ['ngResource'])
 
 {% for modelName,conf in API.items %}
 
-.factory("{{modelName}}", [ "DjResource", (Resource)->
+.factory("{{modelName}}", [ "DjResource", "djAuth", (Resource, djAuth)->
     R = Resource(
         urlBase + "{{conf.commonUrl}}",{% if conf.hasIdInUrl %}
         {id: '@id'},{% else %}
@@ -33,7 +33,22 @@ angular.module("djServices", ['ngResource'])
             "{{actionName}}":{
                 url: urlBase + "{{actionConf.url}}",
                 method: "{{actionConf.method}}",{% for on,ov in actionConf.options.items %}
-                {{on}}: {{ov}}{% endfor %}
+                {{on}}: {{ov}}{% endfor %}{% if actionName == 'login' or actionName == 'register' %}
+                interceptor: {
+                    response: (response)->
+                        data = response.data
+                        djAuth.setUser(data.token, data.userId, data.user)
+                        params = response.config.params or {}
+                        djAuth.rememberMe = params.rememberMe != false
+                        djAuth.save()
+                        response.resource
+                }{% endif %}{% if actionName == 'logout' %}
+                interceptor: {
+                    response: (response)->
+                        djAuth.clearUser()
+                        djAuth.clearStorage()
+                        response.resource
+                }{% endif %}
             }{% endfor %}
         }
     )
@@ -45,7 +60,108 @@ angular.module("djServices", ['ngResource'])
 
 {% endfor %}
 
-.provider 'DjResource', ()->
+
+
+
+
+
+
+.factory('djAuth', ->
+    props = [
+        'accessTokenId'
+        'currentUserId'
+        'rememberMe'
+    ]
+    propsPrefix = '$dj$'
+
+    djAuth = ->
+        self = this
+        props.forEach (name) ->
+            self[name] = load(name)
+            return
+        @currentUserData = null
+        return
+
+    # Note: LocalStorage converts the value to string
+    # We are using empty string as a marker for null/undefined values.
+
+    save = (storage, name, value) ->
+        key = propsPrefix + name
+        if value == null
+            value = ''
+        storage[key] = value
+        return
+
+    load = (name) ->
+        key = propsPrefix + name
+        localStorage[key] or sessionStorage[key] or null
+
+    djAuth::save = ->
+        self = this
+        storage = if @rememberMe then localStorage else sessionStorage
+        props.forEach (name) ->
+            save storage, name, self[name]
+            return
+        return
+
+    djAuth::setUser = (accessTokenId, userId, userData) ->
+        @accessTokenId = accessTokenId
+        @currentUserId = userId
+        @currentUserData = userData
+        return
+
+    djAuth::clearUser = ->
+        @accessTokenId = null
+        @currentUserId = null
+        @currentUserData = null
+        return
+
+    djAuth::clearStorage = ->
+        props.forEach (name) ->
+            save sessionStorage, name, null
+            save localStorage, name, null
+            return
+        return
+
+    new djAuth
+)
+
+.config([
+    '$httpProvider'
+    ($httpProvider) ->
+        $httpProvider.interceptors.push 'djAuthRequestInterceptor'
+        return
+])
+
+.factory('djAuthRequestInterceptor', [
+    '$q'
+    'djAuth'
+    ($q, djAuth) ->
+        request: (config) ->
+            # filter out external requests
+            host = getHost(config.url)
+            if host and host != urlBaseHost
+                return config
+            if djAuth.accessTokenId
+                config.headers[authHeader] = "Token " + djAuth.accessTokenId
+            else if config.__isGetCurrentUser__
+                # Return a stub 401 error for User.getCurrent() when
+                # there is no user logged in
+                res =
+                    body: error: status: 401
+                    status: 401
+                    config: config
+                    headers: ->
+                        undefined
+                return $q.reject(res)
+            config or $q.when(config)
+])
+
+
+
+
+
+.provider('DjResource', ()->
     ###*
     # @ngdoc method
     # @name djServices.DjResourceProvider#setAuthHeader
@@ -106,3 +222,4 @@ angular.module("djServices", ['ngResource'])
                 resource
     ]
     return
+)

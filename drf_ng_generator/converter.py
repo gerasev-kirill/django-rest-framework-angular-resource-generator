@@ -24,8 +24,6 @@ class SchemaConverter:
     def djangoUrlToAngular(self, url):
         url = url.replace('{pk}', '{id}')
         url = url.replace('{', ':').replace('}', '')
-        if url[-1]=='/':
-            url += ' '
         return url
 
     def apiPointToDict(self, point):
