@@ -36,3 +36,22 @@ class TestTemplate(TestCase):
                     '"'+apiConf['url']+'",',
                     coffee
                 )
+
+    def test_js(self):
+        rest_schema = self.get_schema()
+
+        js = render_to_string(
+            'ngResource.js',
+            {'API': rest_schema}
+        )
+
+        for modelName, conf in REST_SCHEMA.items():
+            self.assertIn(
+                '.factory("'+modelName+'"',
+                js
+            )
+            for name, apiConf in conf['api'].items():
+                self.assertIn(
+                    '"'+apiConf['url']+'",',
+                    js
+                )
