@@ -1,4 +1,4 @@
-# django-rest-framework-angular-resource-generator - command for django that generates AngularJS services, compatible with ngResource.$resource, that provide client-side representation of the models and remote methods in angular-application.
+# Command for django that generates AngularJS services, compatible with ngResource.$resource, that provide client-side representation of the models and remote methods in angular-application.
 
 
 Приложение сделано под впечатлением от loopback.js и генератора ngResource-описания для него.
@@ -66,7 +66,7 @@ class UserViewset(ModelViewSet):
 		})
 
 	@list_route(methods=['delete'])
-		def logout(self, request, *args, **kwargs):
+	def logout(self, request, *args, **kwargs):
 		tAuth = TokenAuthentication()
 		user, token = tAuth.authenticate(request)
 		token.delete()
