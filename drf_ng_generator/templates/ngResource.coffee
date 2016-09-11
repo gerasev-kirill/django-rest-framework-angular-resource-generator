@@ -39,7 +39,7 @@ angular.module("djServices", ['ngResource'])
                         data = response.data
                         djAuth.setUser(data.token, data.userId, data.user)
                         params = response.config.params or {}
-                        djAuth.rememberMe = params.rememberMe != false
+                        djAuth.rememberMe = !!params.rememberMe
                         djAuth.save()
                         response.resource
                 }{% endif %}{% if actionName == 'logout' %}
