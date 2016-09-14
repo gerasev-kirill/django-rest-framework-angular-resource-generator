@@ -98,7 +98,7 @@ REST_FRAMEWORK = {
 after viewset is connected to router, for example 'user', we can call the following code to log in the user:
 
 ```js
-angular.module('myModule')
+angular.module('myModule', ['djServices'])
 
 .controller('MyController', function($scope, User){
 	$scope.data = {
