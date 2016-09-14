@@ -29,7 +29,7 @@ or (to generate the coffee-script file):
 	python ./manage.py drf_ng ./path-to-my-static-dir/resources.coffee
 ```
 
-Example of generated services: [exampleResource.js](django-rest-framework-angular-resource-generator/tree/master/exampleResource.js)
+Example of generated services: [exampleResource.js](exampleResource.js)
 
 ## Description
 
