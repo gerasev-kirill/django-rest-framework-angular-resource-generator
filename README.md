@@ -39,8 +39,8 @@ The output can be saved into js and coffee files.
 
 Functionality:
 * generating js and coffee-script files
-* ngResource are being generated onle for views from rest_framework, and general django-views are not supported.
-* Only the authorization flow for token from http://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication is supported. To implement this one of the views should contain the following methods defined :
+* ngResource are being generated only for views from rest_framework, and general django-views are not supported.
+* the authorization flow for token from http://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication is supported. To implement this one of the views should contain the following methods defined :
 
 
 ```python
@@ -105,7 +105,7 @@ angular.module('myModule')
 		username: '',
 		password: ''
 	};
-	// if needed to keep the user logged in for longer time then browser sessio, you can add the following field
+	// if needed to keep the user logged in for longer time then browser session, you can add the following field
 	$scope.data.rememberMe = true;
 	// rememberMe - impacts only the djAuth service
 

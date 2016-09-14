@@ -212,10 +212,16 @@ angular.module("djServices", ['ngResource'])
                 # Angular always calls POST on $save()
                 # This hack is based on
                 # http://kirkbushell.me/angular-js-using-ng-resource-in-a-more-restful-manner/
+                resource::$origSave = resource::$save
 
                 resource::$save = (success, error) ->
-                    # Fortunately, LoopBack provides a convenient `upsert` method
-                    # that exactly fits our needs.
+                    # create new object
+                    if not this.hasOwnProperty('id') and not this.hasOwnProperty('pk')
+                        if resource.create
+                            result = resource.create.call(this, {}, this, success, error)
+                            return result.$promise or result
+                        return resource.$origSave(success, error)
+                    # update old object
                     result = resource.update.call(this, {}, this, success, error)
                     result.$promise or result
 
