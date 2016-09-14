@@ -231,8 +231,23 @@
                 return function(url, params, actions) {
                     var resource;
                     resource = $resource(url, params, actions);
+                    // Angular always calls POST on $save()
+                    // This hack is based on
+                    // http://kirkbushell.me/angular-js-using-ng-resource-in-a-more-restful-manner/
+
+                    resource.prototype.$origSave = resource.prototype.$save;
+
                     resource.prototype.$save = function(success, error) {
                         var result;
+                        // create new object
+                        if (!this.hasOwnProperty('id') && !this.hasOwnProperty('pk')) {
+                            if (resource.create) {
+                                result = resource.create.call(this, {}, this, success, error);
+                                return result.$promise || result;
+                            }
+                            return resource.$origSave(success, error);
+                        }
+                        //  update old object
                         result = resource.update.call(this, {}, this, success, error);
                         return result.$promise || result;
                     };
