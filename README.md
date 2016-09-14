@@ -7,7 +7,7 @@ App was inspired by loopback.js.
 * install using pip:
 
 ```bash
-	pip install git+https://github.com/gerasev-kirill/django-rest-framework-angular-resource-generator
+	pip install django-rest-framework-angular-resource-generator
 ```
 
 * add "drf_ng_generator" to your INSTALLED_APPS setting like this:
