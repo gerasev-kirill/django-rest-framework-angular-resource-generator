@@ -1,7 +1,6 @@
 # Command for django that generates AngularJS services, compatible with ngResource.$resource, that provide client-side representation of the models and remote methods in angular-application.
 
-
-Приложение сделано под впечатлением от loopback.js и генератора ngResource-описания для него.
+App was inspired by loopback.js.
 
 ## Quick start
 
@@ -25,21 +24,24 @@ INSTALLED_APPS = (
 ```bash
 	python ./manage.py drf_ng ./path-to-my-static-dir/resources.js
 ```
-или (для генерации coffee-script файла):
+or (to generate the coffee-script file):
 ```bash
 	python ./manage.py drf_ng ./path-to-my-static-dir/resources.coffee
 ```
 
-## Описание
+Example of generated services: [exampleResource.js](django-rest-framework-angular-resource-generator/tree/master/exampleResource.js)
 
-Приложение имеет только 1 команду: drf_ng, которая генерирует описание ngResource
-на основе urlpatterns для django-rest-framework
-Вывод поддерживается в js и coffee файлы.
-Возможности:
+## Description
 
-* генерация js и coffee-файлов
-* ngResource генерируются только для views от rest_framework и обычные django-views не поддерживаются.
-* поддерживается система авторизации по токену от http://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication. Для этого в одной из view должены быть определены такие методы:
+The application has just one command - drf_ng, that is used to generate the ngResource description based on urlpatterns for django-rest-framework.
+The output can be saved into js and coffee files.
+
+
+Functionality:
+* generating js and coffee-script files
+* ngResource are being generated onle for views from rest_framework, and general django-views are not supported.
+* Only the authorization flow for token from http://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication is supported. To implement this one of the views should contain the following methods defined :
+
 
 ```python
 from django.contrib.auth.models import User
@@ -74,7 +76,8 @@ class UserViewset(ModelViewSet):
 
 ```
 
-и добавлено приложение rest_framework.authtoken, также установлена авторизация через токен:
+
+and the application rest_framework.authtoken should be added, and also the authorization through the token should be set as described below:
 
 ```python
 INSTALLED_APPS = (
@@ -91,9 +94,8 @@ REST_FRAMEWORK = {
 }
 ```
 
-после подключения viewset к router, например, 'user' мы можем вызывать в js такой код
-для логина пользователя:
 
+after viewset is connected to router, for example 'user', we can call the following code to log in the user:
 
 ```js
 angular.module('myModule')
@@ -103,25 +105,23 @@ angular.module('myModule')
 		username: '',
 		password: ''
 	};
-	// если нужно чтоб логин пользователя длился больше чем сессия браузера, то
-	// добавьте такое поле
+	// if needed to keep the user logged in for longer time then browser sessio, you can add the following field
 	$scope.data.rememberMe = true;
-	// rememberMe - влияет только на сервис djAuth
+	// rememberMe - impacts only the djAuth service
 
 	$scope.login = function(){
 		User.login($scope.data, function(data){
 			// data = {token: '...', userId: 0}
-			// теперь мы можем делать любые запросы к серверу, которые требуют авторизации
-			// например:
+			// now we can make any calls to the server where authorization is required
+			// for example
 			User.query();
-			// и для этого не нужно нигде специально сохранять токен
+			// and we don't need to manage the storage of the token
 		});
 	};
 
 	$scope.logout = function(){
 		User.logout(function(){
-			// теперь любой запрос к серверу, который требует авторизацию будет отклоняться
-			// самим сервером.
+			// now any request to the server that needs authorization will be rejected by the server
 		});
 	}
 });
@@ -129,14 +129,13 @@ angular.module('myModule')
 ```
 
 
+ Also the service djAuth is available, and contains the following properties:
+djAuth.accessTokenId,
+djAuth.currentUserId
+These variables are being changed during user log in/ log off.
 
-Также доступен сервис djAuth, который содержит такие свойства:
-	djAuth.accessTokenId,
-	djAuth.currentUserId
-эти переменные изменяются при логине/разлогине пользователя.
-
-Вы можете также добавить метод register в ваш django viewset, который возвращает те же поля что и
-login метод, и тогда можно регистрировать пользователей с помощью ангулоровских сервисов:
+You can also add a method "register" to your django viewset, that returns same fields as the login method;
+and therefore you can register users using angular services:
 
 ```js
 	var data = {username: 'Hello', password: 'world!', email: 'mail@mail.com'};
@@ -145,5 +144,4 @@ login метод, и тогда можно регистрировать поль
 	});
 ```
 
-
-Подробнее смотрите сгенерированный код js или coffee файла
+Please review the generated js or coffee files code for more details
