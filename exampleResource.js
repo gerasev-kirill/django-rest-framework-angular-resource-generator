@@ -24,7 +24,7 @@
     })
 
 
-    .factory("users", [
+    .factory("Users", [
         "DjResource", "djAuth", function(Resource, djAuth) {
             var R;
             R = Resource(urlBase + "/users/:id/",
@@ -62,12 +62,12 @@
             R['destroyById'] = R['destroy'];
             R['deleteById'] = R['destroy'];
             R['findById'] = R['retrieve'];
-            R.$modelName = "users";
+            R.$modelName = "Users";
             return R;
         }
     ])
 
-    .factory("Article", [
+    .factory("Articles", [
         "DjResource", "djAuth", function(Resource, djAuth) {
             var R;
             R = Resource(urlBase + "/articles/:id/",
