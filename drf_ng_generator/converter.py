@@ -71,8 +71,7 @@ class SchemaConverter:
 
     def convert(self, schema=None):
         apiDict = {}
-        if not schema:
-            schema = self.schema
+        schema = schema or self.schema
 
         for k,v in schema.data.items():
             apiDict[k] = self.apiPointToDict(v)
