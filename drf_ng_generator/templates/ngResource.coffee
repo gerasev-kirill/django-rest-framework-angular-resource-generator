@@ -102,7 +102,7 @@ angular.module("djServices", ['ngResource'])
         self = this
         storage = if @rememberMe then localStorage else sessionStorage
         if !localStorage and !storage
-            console.warn('LoopBackAuth: localStorage is unavailable, using sessionStorage')
+            console.warn('djAuth: localStorage is unavailable, using sessionStorage')
             storage = sessionStorage
         props.forEach (name) ->
             save storage, name, self[name]
@@ -123,8 +123,8 @@ angular.module("djServices", ['ngResource'])
 
     djAuth::clearStorage = ->
         props.forEach (name) ->
-            save sessionStorage, name, null
-            save localStorage, name, null
+            save(sessionStorage, name, null)
+            if localStorage then save(localStorage, name, null)
             return
         return
 

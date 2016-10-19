@@ -98,7 +98,7 @@
             self = this;
             storage = this.rememberMe ? localStorage : sessionStorage;
             if (!localStorage && !storage){
-                console.warn('LoopBackAuth: localStorage is unavailable, using sessionStorage');
+                console.warn('djAuth: localStorage is unavailable, using sessionStorage');
                 storage = sessionStorage;
             }
             props.forEach(function(name) {
@@ -118,7 +118,9 @@
         djAuth.prototype.clearStorage = function() {
             props.forEach(function(name) {
                 save(sessionStorage, name, null);
-                save(localStorage, name, null);
+                if (localStorage){
+                    save(localStorage, name, null);
+                }
             });
         };
         return new djAuth;
