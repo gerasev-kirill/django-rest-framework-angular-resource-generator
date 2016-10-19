@@ -88,12 +88,19 @@
         load = function(name) {
             var key;
             key = propsPrefix + name;
-            return localStorage[key] || sessionStorage[key] || null;
+            if (localStorage){
+               return localStorage[key] || sessionStorage[key] || null;
+            }
+            return sessionStorage[key] || null;
         };
         djAuth.prototype.save = function() {
             var self, storage;
             self = this;
             storage = this.rememberMe ? localStorage : sessionStorage;
+            if (!localStorage && !storage){
+                console.warn('LoopBackAuth: localStorage is unavailable, using sessionStorage');
+                storage = sessionStorage;
+            }
             props.forEach(function(name) {
                 save(storage, name, self[name]);
             });

@@ -94,11 +94,16 @@ angular.module("djServices", ['ngResource'])
 
     load = (name) ->
         key = propsPrefix + name
-        localStorage[key] or sessionStorage[key] or null
+        if localStorage
+            return localStorage[key] or sessionStorage[key] or null
+        sessionStorage[key] or null
 
     djAuth::save = ->
         self = this
         storage = if @rememberMe then localStorage else sessionStorage
+        if !localStorage and !storage
+            console.warn('LoopBackAuth: localStorage is unavailable, using sessionStorage')
+            storage = sessionStorage
         props.forEach (name) ->
             save storage, name, self[name]
             return

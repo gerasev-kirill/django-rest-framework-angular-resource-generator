@@ -101,16 +101,17 @@ after viewset is connected to router, for example 'user', we can call the follow
 angular.module('myModule', ['djServices'])
 
 .controller('MyController', function($scope, User){
+	var params = {};
 	$scope.data = {
 		username: '',
 		password: ''
 	};
 	// if needed to keep the user logged in for longer time then browser session, you can add the following field
-	$scope.data.rememberMe = true;
+	params.rememberMe = true;
 	// rememberMe - impacts only the djAuth service
 
 	$scope.login = function(){
-		User.login($scope.data, function(data){
+		User.login(params, $scope.data, function(data){
 			// data = {token: '...', userId: 0}
 			// now we can make any calls to the server where authorization is required
 			// for example
