@@ -25,7 +25,7 @@
 
     {% for modelName,conf in API.items %}
     .factory("{{modelName}}", [
-        "DjResource", "{{SERVICE_PREFIX_NAME}}Auth", function(Resource, {{SERVICE_PREFIX_NAME}}Auth) {
+        "CustomResource", "{{SERVICE_PREFIX_NAME}}Auth", function(Resource, {{SERVICE_PREFIX_NAME}}Auth) {
             var R;
             R = Resource(urlBase + "{{conf.commonUrl}}", {% if conf.hasIdInUrl %}
             {
@@ -161,12 +161,12 @@
             };
         }
     ])
-    .provider('DjResource', function() {
+    .provider('CustomResource', function() {
 
         /**
          * @ngdoc method
-         * @name {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider#setAuthHeader
-         * @methodOf {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider
+         * @name {{SERVICE_PREFIX_NAME}}Services.CustomResourceProvider#setAuthHeader
+         * @methodOf {{SERVICE_PREFIX_NAME}}Services.CustomResourceProvider
          * @param {string} header The header name to use, e.g. `X-Access-Token`
          * @description
          * Configure the REST transport to use a different header for sending
@@ -179,8 +179,8 @@
 
         /**
          * @ngdoc method
-         * @name {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider#setUrlBase
-         * @methodOf {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider
+         * @name {{SERVICE_PREFIX_NAME}}Services.CustomResourceProvider#setUrlBase
+         * @methodOf {{SERVICE_PREFIX_NAME}}Services.CustomResourceProvider
          * @param {string} url The URL to use, e.g. `/api` or `//example.com/api`.
          * @description
          * Change the URL of the REST API server. By default, the URL provided
@@ -193,8 +193,8 @@
 
         /**
          * @ngdoc method
-         * @name {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider#getUrlBase
-         * @methodOf {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider
+         * @name {{SERVICE_PREFIX_NAME}}Services.CustomResourceProvider#getUrlBase
+         * @methodOf {{SERVICE_PREFIX_NAME}}Services.CustomResourceProvider
          * @description
          * Get the URL of the REST API server. The URL provided
          * to the code generator (`lb-ng` or `grunt-loopback-sdk-angular`) is used.
