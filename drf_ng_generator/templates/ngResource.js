@@ -17,7 +17,7 @@
 
     urlBaseHost = getHost(urlBase) || location.host;
 
-    angular.module("djServices", ['ngResource']).config(function($resourceProvider, $httpProvider) {
+    angular.module("{{SERVICE_PREFIX_NAME}}Services", ['ngResource']).config(function($resourceProvider, $httpProvider) {
         $resourceProvider.defaults.stripTrailingSlashes = false;
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
         $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -25,7 +25,7 @@
 
     {% for modelName,conf in API.items %}
     .factory("{{modelName}}", [
-        "DjResource", "djAuth", function(Resource, djAuth) {
+        "DjResource", "{{SERVICE_PREFIX_NAME}}Auth", function(Resource, {{SERVICE_PREFIX_NAME}}Auth) {
             var R;
             R = Resource(urlBase + "{{conf.commonUrl}}", {% if conf.hasIdInUrl %}
             {
@@ -41,17 +41,17 @@
                         response: function(response) {
                             var data, params;
                             data = response.data;
-                            djAuth.setUser(data.token, data.userId, data.user);
+                            {{SERVICE_PREFIX_NAME}}Auth.setUser(data.token, data.userId, data.user);
                             params = response.config.params || {};
-                            djAuth.rememberMe = !!params.rememberMe;
-                            djAuth.save();
+                            {{SERVICE_PREFIX_NAME}}Auth.rememberMe = !!params.rememberMe;
+                            {{SERVICE_PREFIX_NAME}}Auth.save();
                             return response.resource;
                         }
                     },{% endif %}{% if actionName == 'logout' %}
                     interceptor: {
                         response: function(response) {
-                            djAuth.clearUser();
-                            djAuth.clearStorage();
+                            {{SERVICE_PREFIX_NAME}}Auth.clearUser();
+                            {{SERVICE_PREFIX_NAME}}Auth.clearStorage();
                             return response.resource;
                         }
                     }{% endif %}
@@ -65,11 +65,11 @@
     ])
     {% endfor %}
 
-    .factory('djAuth', function() {
-        var djAuth, load, props, propsPrefix, save;
+    .factory('{{SERVICE_PREFIX_NAME}}Auth', function() {
+        var {{SERVICE_PREFIX_NAME}}Auth, load, props, propsPrefix, save;
         props = ['accessTokenId', 'currentUserId', 'rememberMe'];
-        propsPrefix = '$dj$';
-        djAuth = function() {
+        propsPrefix = '${{SERVICE_PREFIX_NAME}}$';
+        {{SERVICE_PREFIX_NAME}}Auth = function() {
             var self;
             self = this;
             props.forEach(function(name) {
@@ -93,29 +93,29 @@
             }
             return sessionStorage[key] || null;
         };
-        djAuth.prototype.save = function() {
+        {{SERVICE_PREFIX_NAME}}Auth.prototype.save = function() {
             var self, storage;
             self = this;
             storage = this.rememberMe ? localStorage : sessionStorage;
             if (!localStorage && !storage){
-                console.warn('djAuth: localStorage is unavailable, using sessionStorage');
+                console.warn('{{SERVICE_PREFIX_NAME}}Auth: localStorage is unavailable, using sessionStorage');
                 storage = sessionStorage;
             }
             props.forEach(function(name) {
                 save(storage, name, self[name]);
             });
         };
-        djAuth.prototype.setUser = function(accessTokenId, userId, userData) {
+        {{SERVICE_PREFIX_NAME}}Auth.prototype.setUser = function(accessTokenId, userId, userData) {
             this.accessTokenId = accessTokenId;
             this.currentUserId = userId;
             this.currentUserData = userData;
         };
-        djAuth.prototype.clearUser = function() {
+        {{SERVICE_PREFIX_NAME}}Auth.prototype.clearUser = function() {
             this.accessTokenId = null;
             this.currentUserId = null;
             this.currentUserData = null;
         };
-        djAuth.prototype.clearStorage = function() {
+        {{SERVICE_PREFIX_NAME}}Auth.prototype.clearStorage = function() {
             props.forEach(function(name) {
                 save(sessionStorage, name, null);
                 if (localStorage){
@@ -123,15 +123,15 @@
                 }
             });
         };
-        return new djAuth;
+        return new {{SERVICE_PREFIX_NAME}}Auth;
     })
     .config([
         '$httpProvider', function($httpProvider) {
-            $httpProvider.interceptors.push('djAuthRequestInterceptor');
+            $httpProvider.interceptors.push('{{SERVICE_PREFIX_NAME}}AuthRequestInterceptor');
         }
     ])
-    .factory('djAuthRequestInterceptor', [
-        '$q', 'djAuth', function($q, djAuth) {
+    .factory('{{SERVICE_PREFIX_NAME}}AuthRequestInterceptor', [
+        '$q', '{{SERVICE_PREFIX_NAME}}Auth', function($q, {{SERVICE_PREFIX_NAME}}Auth) {
             return {
                 request: function(config) {
                     var host, res;
@@ -139,8 +139,8 @@
                     if (host && host !== urlBaseHost) {
                         return config;
                     }
-                    if (djAuth.accessTokenId) {
-                        config.headers[authHeader] = "Token " + djAuth.accessTokenId;
+                    if ({{SERVICE_PREFIX_NAME}}Auth.accessTokenId) {
+                        config.headers[authHeader] = "Token " + {{SERVICE_PREFIX_NAME}}Auth.accessTokenId;
                     } else if (config.__isGetCurrentUser__) {
                         res = {
                             body: {
@@ -165,8 +165,8 @@
 
         /**
          * @ngdoc method
-         * @name djServices.DjResourceProvider#setAuthHeader
-         * @methodOf djServices.DjResourceProvider
+         * @name {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider#setAuthHeader
+         * @methodOf {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider
          * @param {string} header The header name to use, e.g. `X-Access-Token`
          * @description
          * Configure the REST transport to use a different header for sending
@@ -179,8 +179,8 @@
 
         /**
          * @ngdoc method
-         * @name djServices.DjResourceProvider#setUrlBase
-         * @methodOf djServices.DjResourceProvider
+         * @name {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider#setUrlBase
+         * @methodOf {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider
          * @param {string} url The URL to use, e.g. `/api` or `//example.com/api`.
          * @description
          * Change the URL of the REST API server. By default, the URL provided
@@ -193,8 +193,8 @@
 
         /**
          * @ngdoc method
-         * @name djServices.DjResourceProvider#getUrlBase
-         * @methodOf djServices.DjResourceProvider
+         * @name {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider#getUrlBase
+         * @methodOf {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider
          * @description
          * Get the URL of the REST API server. The URL provided
          * to the code generator (`lb-ng` or `grunt-loopback-sdk-angular`) is used.

@@ -13,7 +13,7 @@ urlBaseHost = getHost(urlBase) || location.host
 
 
 
-angular.module("djServices", ['ngResource'])
+angular.module("{{SERVICE_PREFIX_NAME}}Services", ['ngResource'])
 
 .config ($resourceProvider, $httpProvider)->
     $resourceProvider.defaults.stripTrailingSlashes = false
@@ -24,7 +24,7 @@ angular.module("djServices", ['ngResource'])
 
 {% for modelName,conf in API.items %}
 
-.factory("{{modelName}}", [ "DjResource", "djAuth", (Resource, djAuth)->
+.factory("{{modelName}}", [ "DjResource", "{{SERVICE_PREFIX_NAME}}Auth", (Resource, {{SERVICE_PREFIX_NAME}}Auth)->
     R = Resource(
         urlBase + "{{conf.commonUrl}}",{% if conf.hasIdInUrl %}
         {id: '@id'},{% else %}
@@ -37,16 +37,16 @@ angular.module("djServices", ['ngResource'])
                 interceptor: {
                     response: (response)->
                         data = response.data
-                        djAuth.setUser(data.token, data.userId, data.user)
+                        {{SERVICE_PREFIX_NAME}}Auth.setUser(data.token, data.userId, data.user)
                         params = response.config.params or {}
-                        djAuth.rememberMe = !!params.rememberMe
-                        djAuth.save()
+                        {{SERVICE_PREFIX_NAME}}Auth.rememberMe = !!params.rememberMe
+                        {{SERVICE_PREFIX_NAME}}Auth.save()
                         response.resource
                 }{% endif %}{% if actionName == 'logout' %}
                 interceptor: {
                     response: (response)->
-                        djAuth.clearUser()
-                        djAuth.clearStorage()
+                        {{SERVICE_PREFIX_NAME}}Auth.clearUser()
+                        {{SERVICE_PREFIX_NAME}}Auth.clearStorage()
                         response.resource
                 }{% endif %}
             }{% endfor %}
@@ -66,15 +66,15 @@ angular.module("djServices", ['ngResource'])
 
 
 
-.factory('djAuth', ->
+.factory('{{SERVICE_PREFIX_NAME}}Auth', ->
     props = [
         'accessTokenId'
         'currentUserId'
         'rememberMe'
     ]
-    propsPrefix = '$dj$'
+    propsPrefix = '${{SERVICE_PREFIX_NAME}}$'
 
-    djAuth = ->
+    {{SERVICE_PREFIX_NAME}}Auth = ->
         self = this
         props.forEach (name) ->
             self[name] = load(name)
@@ -98,57 +98,57 @@ angular.module("djServices", ['ngResource'])
             return localStorage[key] or sessionStorage[key] or null
         sessionStorage[key] or null
 
-    djAuth::save = ->
+    {{SERVICE_PREFIX_NAME}}Auth::save = ->
         self = this
         storage = if @rememberMe then localStorage else sessionStorage
         if !localStorage and !storage
-            console.warn('djAuth: localStorage is unavailable, using sessionStorage')
+            console.warn('{{SERVICE_PREFIX_NAME}}Auth: localStorage is unavailable, using sessionStorage')
             storage = sessionStorage
         props.forEach (name) ->
             save storage, name, self[name]
             return
         return
 
-    djAuth::setUser = (accessTokenId, userId, userData) ->
+    {{SERVICE_PREFIX_NAME}}Auth::setUser = (accessTokenId, userId, userData) ->
         @accessTokenId = accessTokenId
         @currentUserId = userId
         @currentUserData = userData
         return
 
-    djAuth::clearUser = ->
+    {{SERVICE_PREFIX_NAME}}Auth::clearUser = ->
         @accessTokenId = null
         @currentUserId = null
         @currentUserData = null
         return
 
-    djAuth::clearStorage = ->
+    {{SERVICE_PREFIX_NAME}}Auth::clearStorage = ->
         props.forEach (name) ->
             save(sessionStorage, name, null)
             if localStorage then save(localStorage, name, null)
             return
         return
 
-    new djAuth
+    new {{SERVICE_PREFIX_NAME}}Auth
 )
 
 .config([
     '$httpProvider'
     ($httpProvider) ->
-        $httpProvider.interceptors.push 'djAuthRequestInterceptor'
+        $httpProvider.interceptors.push '{{SERVICE_PREFIX_NAME}}AuthRequestInterceptor'
         return
 ])
 
-.factory('djAuthRequestInterceptor', [
+.factory('{{SERVICE_PREFIX_NAME}}AuthRequestInterceptor', [
     '$q'
-    'djAuth'
-    ($q, djAuth) ->
+    '{{SERVICE_PREFIX_NAME}}Auth'
+    ($q, {{SERVICE_PREFIX_NAME}}Auth) ->
         request: (config) ->
             # filter out external requests
             host = getHost(config.url)
             if host and host != urlBaseHost
                 return config
-            if djAuth.accessTokenId
-                config.headers[authHeader] = "Token " + djAuth.accessTokenId
+            if {{SERVICE_PREFIX_NAME}}Auth.accessTokenId
+                config.headers[authHeader] = "Token " + {{SERVICE_PREFIX_NAME}}Auth.accessTokenId
             else if config.__isGetCurrentUser__
                 # Return a stub 401 error for User.getCurrent() when
                 # there is no user logged in
@@ -169,8 +169,8 @@ angular.module("djServices", ['ngResource'])
 .provider('DjResource', ()->
     ###*
     # @ngdoc method
-    # @name djServices.DjResourceProvider#setAuthHeader
-    # @methodOf djServices.DjResourceProvider
+    # @name {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider#setAuthHeader
+    # @methodOf {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider
     # @param {string} header The header name to use, e.g. `X-Access-Token`
     # @description
     # Configure the REST transport to use a different header for sending
@@ -184,8 +184,8 @@ angular.module("djServices", ['ngResource'])
 
     ###*
     # @ngdoc method
-    # @name djServices.DjResourceProvider#setUrlBase
-    # @methodOf djServices.DjResourceProvider
+    # @name {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider#setUrlBase
+    # @methodOf {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider
     # @param {string} url The URL to use, e.g. `/api` or `//example.com/api`.
     # @description
     # Change the URL of the REST API server. By default, the URL provided
@@ -199,8 +199,8 @@ angular.module("djServices", ['ngResource'])
 
     ###*
     # @ngdoc method
-    # @name djServices.DjResourceProvider#getUrlBase
-    # @methodOf djServices.DjResourceProvider
+    # @name {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider#getUrlBase
+    # @methodOf {{SERVICE_PREFIX_NAME}}Services.DjResourceProvider
     # @description
     # Get the URL of the REST API server. The URL provided
     # to the code generator (`lb-ng` or `grunt-loopback-sdk-angular`) is used.

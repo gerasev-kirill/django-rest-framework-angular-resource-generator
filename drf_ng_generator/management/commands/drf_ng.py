@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.template.loader import render_to_string
+from django.conf import settings
 import os
 
 from drf_ng_generator import schemas
@@ -28,7 +29,10 @@ class Command(BaseCommand):
 
             resources = render_to_string(
                 'ngResource'+ext,
-                {'API': converter.convert(schema)}
+                {
+                    'API': converter.convert(schema),
+                    'SERVICE_PREFIX_NAME': getattr(settings, 'DRFGEN_SERVICE_PREFIX_NAME', 'dj')
+                }
             )
             with open(fpath, 'w') as f:
                 f.write(resources)
