@@ -1,5 +1,6 @@
 {
     "userlist": {
+        "urlParams": [],
         "alias": {},
         "api": {
             "read": {
@@ -12,6 +13,7 @@
         "commonUrl": "/userlist/"
     },
     "users": {
+        "urlParams": ["id"],
         "alias": {
             "destroyById": "destroy",
             "deleteById": "destroy",
@@ -69,6 +71,7 @@
         "commonUrl": "/users/:id/"
     },
     "custom": {
+        "urlParams": ["id"],
         "alias": {
             "destroyById": "destroy",
             "deleteById": "destroy"

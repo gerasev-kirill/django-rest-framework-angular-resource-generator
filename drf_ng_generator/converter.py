@@ -23,8 +23,9 @@ class SchemaConverter:
 
     def djangoUrlToAngular(self, url):
         url = url.replace('{pk}', '{id}')
+        params = re.findall(r"\{([A-Za-z0-9_]+)\}", url)
         url = url.replace('{', ':').replace('}', '')
-        return url
+        return url, params
 
     def apiPointToDict(self, point):
         has_id_in_url = False
@@ -34,10 +35,12 @@ class SchemaConverter:
         for k,v in point.items():
             urls.append(v.url)
         commonUrl = self.findCommonPrefix(urls)
+        urlParams = []
 
         for k,v in point.items():
-            url = self.djangoUrlToAngular(v.url)
-            if url.find(':id/')>-1:
+            url, url_params = self.djangoUrlToAngular(v.url)
+            urlParams += url_params
+            if 'id' in url_params:
                 has_id_in_url = True
             action = self.toCamelCase(k)
             data[action] = {
@@ -62,10 +65,11 @@ class SchemaConverter:
             else:
                 commonUrl += '/{pk}/'
         return {
-            'commonUrl': self.djangoUrlToAngular(commonUrl),
+            'commonUrl': self.djangoUrlToAngular(commonUrl)[0],
             'api': data,
             'alias': alias,
-            'hasIdInUrl': has_id_in_url
+            'hasIdInUrl': has_id_in_url,
+            'urlParams': list(set(urlParams))
         }
 
 

@@ -27,11 +27,10 @@
     .factory("{{modelName}}", [
         "CustomResource", "{{SERVICE_PREFIX_NAME}}Auth", function(Resource, {{SERVICE_PREFIX_NAME}}Auth) {
             var R;
-            R = Resource(urlBase + "{{conf.commonUrl}}", {% if conf.hasIdInUrl %}
-            {
-                id: '@id'
-            }, {% else %}
-            {}, {% endif %}
+            R = Resource(urlBase + "{{conf.commonUrl}}",
+            { {% for param in conf.urlParams %}
+                {{param}}: '@{{param}}',{% endfor %}
+            },
             { {% for actionName,actionConf in conf.api.items %}
                 "{{actionName}}": {
                     url: urlBase + "{{actionConf.url}}",
