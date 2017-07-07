@@ -16,11 +16,6 @@ class SchemaGenerator(schemas.SchemaGenerator):
     )
 
 
-    def get_link(self, path, method, callback):
-        link = super(SchemaGenerator, self).get_link(path, method, callback)
-        link._drf_view = callback.cls()
-        return link
-
 
     def get_key(self, path, method, callback):
         category, action = super(SchemaGenerator, self).get_key(path, method, callback)
