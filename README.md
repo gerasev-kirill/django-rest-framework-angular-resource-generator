@@ -1,8 +1,6 @@
 # Command for django that generates AngularJS services, compatible with ngResource.$resource, that provide client-side representation of the models and remote methods in angular-application.
 
-[![Build Status](https://travis-ci.org/gerasev-kirill/django-rest-framework-angular-resource-generator.svg?branch=master)](https://travis-ci.org/gerasev-kirill/django-rest-framework-angular-resource-generator)
-
-[![Coverage Status](https://coveralls.io/repos/github/gerasev-kirill/django-rest-framework-angular-resource-generator/badge.svg?branch=master)](https://coveralls.io/github/gerasev-kirill/django-rest-framework-angular-resource-generator?branch=master)
+[![Build Status](https://travis-ci.org/gerasev-kirill/django-rest-framework-angular-resource-generator.svg?branch=master)](https://travis-ci.org/gerasev-kirill/django-rest-framework-angular-resource-generator) [![Coverage Status](https://coveralls.io/repos/github/gerasev-kirill/django-rest-framework-angular-resource-generator/badge.svg?branch=master)](https://coveralls.io/github/gerasev-kirill/django-rest-framework-angular-resource-generator?branch=master)
 
 App was inspired by loopback.js.
 
