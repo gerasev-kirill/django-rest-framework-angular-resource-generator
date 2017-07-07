@@ -40,10 +40,10 @@ class SchemaConverter:
                 'contentType': link.encoding
             }
 
-            if point_name == 'destroy' and ':id/' in url:
-                point_api['alias']['deleteById'] = 'destroy'
-                point_api['alias']['destroyById'] = 'destroy'
-            elif point_name in ['retrieve', 'get'] and ':id/' in url:
+            if point_name in ['destroy', 'delete'] and ':id/' in url:
+                point_api['alias']['deleteById'] = point_name
+                point_api['alias']['destroyById'] = point_name
+            elif point_name in ['retrieve', 'get', 'read'] and ':id/' in url:
                 point_api['alias']['findById'] = point_name
             elif 'list' in point_name.lower():
                 point_api['api'][action]['options'] = {
@@ -71,4 +71,6 @@ class SchemaConverter:
 
         for k,v in schema.data.items():
             api_schema[k] = self.api_point_to_definition(v)
+        import json
+        print json.dumps(api_schema, indent=4)
         return api_schema

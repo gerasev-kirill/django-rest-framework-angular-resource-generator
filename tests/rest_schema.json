@@ -3,10 +3,13 @@
         "commonUrlParams": [],
         "alias": {},
         "api": {
-            "read": {
+            "list": {
                 "url": "/userlist/",
                 "contentType": "",
-                "method": "GET"
+                "method": "GET",
+                "options":{
+                    "isArray": true
+                }
             }
         },
         "commonUrl": "/userlist/"
@@ -14,12 +17,12 @@
     "users": {
         "commonUrlParams": ["id"],
         "alias": {
-            "destroyById": "destroy",
-            "deleteById": "destroy",
-            "findById": "retrieve"
+            "destroyById": "delete",
+            "deleteById": "delete",
+            "findById": "read"
         },
         "api": {
-            "retrieve": {
+            "read": {
                 "url": "/users/:id/",
                 "contentType": "",
                 "method": "GET"
@@ -60,7 +63,7 @@
                     "isArray": true
                 }
             },
-            "destroy": {
+            "delete": {
                 "url": "/users/:id/",
                 "contentType": "",
                 "method": "DELETE"
@@ -71,8 +74,8 @@
     "custom": {
         "commonUrlParams": ["id"],
         "alias": {
-            "destroyById": "destroy",
-            "deleteById": "destroy"
+            "destroyById": "delete",
+            "deleteById": "delete"
         },
         "api": {
             "testListRouteDecorator": {
@@ -83,7 +86,7 @@
                     "isArray": true
                 }
             },
-            "destroy": {
+            "delete": {
                 "url": "/custom/:id/",
                 "contentType": "",
                 "method": "DELETE"
