@@ -1,0 +1,24 @@
+language: python
+
+sudo: false
+
+python:
+  - "2.7"
+  - "3.4"
+
+env:
+  - DJANGO_VERSION=1.11.0
+  - DJANGO_VERSION=1.10.0
+
+install:
+  - travis_retry pip install detox tox-travis coverage coveralls
+  - pip install django==$DJANGO_VERSION --quiet
+  - pip install djangorestframework==3.6.3  --quiet
+  - pip install coreapi  --quiet
+
+script:
+  - python ./manage.py test
+  - coverage run --source=drf_ng_generator ./manage.py test
+
+after_success:
+  - coveralls
