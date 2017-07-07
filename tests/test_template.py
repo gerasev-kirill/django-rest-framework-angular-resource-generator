@@ -6,6 +6,7 @@ import os, json
 
 from drf_ng_generator import schemas
 from drf_ng_generator.converter import SchemaConverter
+from drf_ng_generator.management.commands.drf_ng import Command
 
 
 with open(os.path.join(settings.BASE_DIR, 'rest_schema.json')) as f:
@@ -19,6 +20,19 @@ class TestTemplate(TestCase):
         converter = SchemaConverter()
         return converter.convert(schema)
 
+    def __test(self, file_content):
+        for modelName, conf in REST_SCHEMA.items():
+            self.assertIn(
+                '.factory("'+modelName+'"',
+                file_content
+            )
+            for name, apiConf in conf['api'].items():
+                self.assertIn(
+                    '"'+apiConf['url']+'",',
+                    file_content
+                )
+
+
     def test_coffee(self):
         rest_schema = self.get_schema()
 
@@ -26,16 +40,8 @@ class TestTemplate(TestCase):
             'ngResource.coffee',
             {'API': rest_schema}
         )
-        for modelName, conf in REST_SCHEMA.items():
-            self.assertIn(
-                '.factory("'+modelName+'"',
-                coffee
-            )
-            for name, apiConf in conf['api'].items():
-                self.assertIn(
-                    '"'+apiConf['url']+'",',
-                    coffee
-                )
+        self.__test(coffee)
+
 
     def test_js(self):
         rest_schema = self.get_schema()
@@ -44,14 +50,25 @@ class TestTemplate(TestCase):
             'ngResource.js',
             {'API': rest_schema}
         )
+        self.__test(js)
 
-        for modelName, conf in REST_SCHEMA.items():
-            self.assertIn(
-                '.factory("'+modelName+'"',
-                js
-            )
-            for name, apiConf in conf['api'].items():
-                self.assertIn(
-                    '"'+apiConf['url']+'",',
-                    js
-                )
+
+    def test_command(self):
+        import tempfile
+        fd, fpath = tempfile.mkstemp(suffix='.js')
+
+        c = Command()
+        c.handle(filepath=[fpath])
+        with open(fpath) as fd:
+            js = fd.read()
+
+        self.__test(js)
+
+        fd, fpath = tempfile.mkstemp(suffix='.coffee')
+
+        c = Command()
+        c.handle(filepath=[fpath])
+        with open(fpath) as fd:
+            coffee = fd.read()
+
+        self.__test(coffee)
