@@ -58,7 +58,7 @@
             });
             {% for alias,toAction in conf.alias.items %}
             R['{{alias}}'] = R['{{toAction}}'];{% endfor %}
-            R.$modelName = "{{modelName}}";
+            R.modelName = "{{modelName}}";
             return R;
         }
     ])

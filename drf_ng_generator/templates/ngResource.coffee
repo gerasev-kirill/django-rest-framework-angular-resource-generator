@@ -55,7 +55,7 @@ angular.module("{{SERVICE_PREFIX_NAME}}Services", ['ngResource'])
     )
     {% for alias,toAction in conf.alias.items %}
     R['{{alias}}'] = R['{{toAction}}']{% endfor %}
-    R.$modelName = "{{modelName}}"
+    R.modelName = "{{modelName}}"
     R
 ])
 
