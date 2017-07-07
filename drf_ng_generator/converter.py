@@ -68,9 +68,7 @@ class SchemaConverter:
     def convert(self, schema=None):
         api_schema = {}
         schema = schema or self.schema
-
         for k,v in schema.data.items():
             api_schema[k] = self.api_point_to_definition(v)
-        import json
-        print json.dumps(api_schema, indent=4)
+
         return api_schema
