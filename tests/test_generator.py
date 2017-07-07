@@ -7,11 +7,13 @@ from drf_ng_generator.converter import SchemaConverter
 
 
 
-with open(os.path.join(settings.BASE_DIR, 'tests', 'rest_schema.json')) as f:
+with open(os.path.join(settings.BASE_DIR, 'rest_schema.json')) as f:
     REST_SCHEMA = json.load(f)
 
 
 class TestGenerator(TestCase):
+    def setUp(self):
+        self.maxDiff = None
 
     def test_generator(self):
         generator = schemas.SchemaGenerator()
@@ -19,7 +21,7 @@ class TestGenerator(TestCase):
         converter = SchemaConverter()
         rest_schema = converter.convert(schema)
 
-        self.assertEqual(
+        self.assertDictEqual(
             rest_schema,
             REST_SCHEMA
         )

@@ -8,7 +8,7 @@ from drf_ng_generator import schemas
 from drf_ng_generator.converter import SchemaConverter
 
 
-with open(os.path.join(settings.BASE_DIR, 'tests', 'rest_schema.json')) as f:
+with open(os.path.join(settings.BASE_DIR, 'rest_schema.json')) as f:
     REST_SCHEMA = json.load(f)
 
 

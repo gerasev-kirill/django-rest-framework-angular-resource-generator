@@ -1,4 +1,7 @@
 import re
+from . import helpers
+
+
 
 
 
@@ -6,12 +9,8 @@ class SchemaConverter:
     def __init__(self, schema=None):
         self.schema = schema
 
-    def toCamelCase(self, text):
-        text = re.sub(r'(?!^)_([a-zA-Z])', lambda m: m.group(0).upper(), text)
-        text = text.replace('_','')
-        return text
 
-    def findCommonPrefix(self, strList):
+    def get_common_url(self, strList):
         "Given a list of strings, returns the longest common leading component"
         if not strList: return ''
         s1 = min(strList)
@@ -21,62 +20,55 @@ class SchemaConverter:
                 return s1[:i]
         return s1
 
-    def djangoUrlToAngular(self, url):
-        url = url.replace('{pk}', '{id}')
-        params = re.findall(r"\{([A-Za-z0-9_]+)\}", url)
-        url = url.replace('{', ':').replace('}', '')
-        return url, params
 
-    def apiPointToDict(self, point):
-        has_id_in_url = False
-        data = {}
-        alias = {}
-        urls = []
-        for k,v in point.items():
-            urls.append(v.url)
-        commonUrl = self.findCommonPrefix(urls)
-        urlParams = []
+    def api_point_to_definition(self, point):
+        point_api = {
+            'commonUrl': '',
+            'commonUrlParams': [],
+            'api': {},
+            'alias':{}
+        }
 
-        for k,v in point.items():
-            url, url_params = self.djangoUrlToAngular(v.url)
-            urlParams += url_params
-            if 'id' in url_params:
-                has_id_in_url = True
-            action = self.toCamelCase(k)
-            data[action] = {
+        for point_name,link in point.items():
+            url, url_params = helpers.normalize_url(link.url)
+            action = helpers.to_camelCase(point_name)
+
+            point_api['commonUrlParams'] += url_params
+            point_api['api'][action] = {
                 'url': url,
-                'method': v.action.upper(),
-                'contentType': v.encoding
+                'method': link.action.upper(),
+                'contentType': link.encoding
             }
-            if k == 'destroy' and url.find(':id/')>-1:
-                alias['deleteById'] = 'destroy'
-                alias['destroyById'] = 'destroy'
-            if k in ['retrieve', 'get'] and url.find(':id/')>-1:
-                alias['findById'] = k
-            if k.find('list')>-1:
-                data[action]['options']={
-                    'isArray': 'true'
+
+            if point_name == 'destroy' and ':id/' in url:
+                point_api['alias']['deleteById'] = 'destroy'
+                point_api['alias']['destroyById'] = 'destroy'
+            elif point_name in ['retrieve', 'get'] and ':id/' in url:
+                point_api['alias']['findById'] = point_name
+            elif 'list' in point_name.lower():
+                point_api['api'][action]['options'] = {
+                    'isArray': True
                 }
 
-
-        if has_id_in_url and '{pk}/' not in commonUrl:
-            if commonUrl[-1] == '/':
-                commonUrl += '{pk}/'
+        point_api['commonUrl'] = self.get_common_url([
+            p['url']
+            for k,p in point_api['api'].items()
+        ])
+        if 'id' in point_api['commonUrlParams']  and ':id/' not in point_api['commonUrl']:
+            if point_api['commonUrl'][-1] == '/':
+                point_api['commonUrl'] += ':id/'
             else:
-                commonUrl += '/{pk}/'
-        return {
-            'commonUrl': self.djangoUrlToAngular(commonUrl)[0],
-            'api': data,
-            'alias': alias,
-            'hasIdInUrl': has_id_in_url,
-            'urlParams': list(set(urlParams))
-        }
+                point_api['commonUrl'] += '/:id/'
+
+        point_api['commonUrlParams'] = list(set(point_api['commonUrlParams']))
+        return point_api
+
 
 
     def convert(self, schema=None):
-        apiDict = {}
+        api_schema = {}
         schema = schema or self.schema
 
         for k,v in schema.data.items():
-            apiDict[k] = self.apiPointToDict(v)
-        return apiDict
+            api_schema[k] = self.api_point_to_definition(v)
+        return api_schema

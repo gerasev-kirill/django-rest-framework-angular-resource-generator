@@ -1,6 +1,6 @@
 {
     "userlist": {
-        "urlParams": [],
+        "commonUrlParams": [],
         "alias": {},
         "api": {
             "read": {
@@ -9,11 +9,10 @@
                 "method": "GET"
             }
         },
-        "hasIdInUrl": false,
         "commonUrl": "/userlist/"
     },
     "users": {
-        "urlParams": ["id"],
+        "commonUrlParams": ["id"],
         "alias": {
             "destroyById": "destroy",
             "deleteById": "destroy",
@@ -35,7 +34,7 @@
                 "contentType": "",
                 "method": "GET",
                 "options": {
-                    "isArray": "true"
+                    "isArray": true
                 }
             },
             "update": {
@@ -58,7 +57,7 @@
                 "contentType": "",
                 "method": "GET",
                 "options": {
-                    "isArray": "true"
+                    "isArray": true
                 }
             },
             "destroy": {
@@ -67,11 +66,10 @@
                 "method": "DELETE"
             }
         },
-        "hasIdInUrl": true,
         "commonUrl": "/users/:id/"
     },
     "custom": {
-        "urlParams": ["id"],
+        "commonUrlParams": ["id"],
         "alias": {
             "destroyById": "destroy",
             "deleteById": "destroy"
@@ -82,7 +80,7 @@
                 "contentType": "",
                 "method": "GET",
                 "options": {
-                    "isArray": "true"
+                    "isArray": true
                 }
             },
             "destroy": {
@@ -96,7 +94,6 @@
                 "method": "PATCH"
             }
         },
-        "hasIdInUrl": true,
         "commonUrl": "/custom/:id/"
     }
 }

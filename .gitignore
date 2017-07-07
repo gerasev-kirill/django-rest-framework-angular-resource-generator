@@ -4,3 +4,6 @@ dist
 *.pyo
 ap2
 .*
+!.gitignore
+!.travis.yml
+/build

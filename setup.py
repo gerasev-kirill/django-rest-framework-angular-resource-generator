@@ -17,6 +17,7 @@ setup(
     author='Gerasev Kirill',
     author_email='gerasev.kirill@gmail.com',
     install_requires=[
+        'Django'
         'coreapi',
         'djangorestframework'
     ],
