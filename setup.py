@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-rest-framework-angular-resource-generator',
-    version='1.1.0',
+    version='1.1.1',
     packages=['drf_ng_generator'],
     include_package_data=True,
     license='BSD License',
@@ -17,7 +17,7 @@ setup(
     author='Gerasev Kirill',
     author_email='gerasev.kirill@gmail.com',
     install_requires=[
-        'Django'
+        'Django>=1.10',
         'coreapi',
         'djangorestframework'
     ],
