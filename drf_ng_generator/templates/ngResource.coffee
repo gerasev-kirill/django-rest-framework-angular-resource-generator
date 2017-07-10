@@ -27,7 +27,7 @@ angular.module("{{SERVICE_PREFIX_NAME}}Services", ['ngResource'])
 .factory("{{modelName}}", [ "CustomResource", "{{SERVICE_PREFIX_NAME}}Auth", (Resource, {{SERVICE_PREFIX_NAME}}Auth)->
     R = Resource(
         urlBase + "{{conf.commonUrl}}",
-        { {% for param in conf.urlParams %}
+        { {% for param in conf.commonUrlParams %}
             {{param}}: '@{{param}}',{% endfor %}
         },
         { {% for actionName,actionConf in conf.api.items %}

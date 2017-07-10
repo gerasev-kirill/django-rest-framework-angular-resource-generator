@@ -28,7 +28,7 @@
         "CustomResource", "{{SERVICE_PREFIX_NAME}}Auth", function(Resource, {{SERVICE_PREFIX_NAME}}Auth) {
             var R;
             R = Resource(urlBase + "{{conf.commonUrl}}",
-            { {% for param in conf.urlParams %}
+            { {% for param in conf.commonUrlParams %}
                 {{param}}: '@{{param}}',{% endfor %}
             },
             { {% for actionName,actionConf in conf.api.items %}
