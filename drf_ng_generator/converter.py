@@ -47,7 +47,7 @@ class SchemaConverter:
                 point_api['alias']['findById'] = point_name
             elif 'list' in point_name.lower():
                 point_api['api'][action]['options'] = {
-                    'isArray': True
+                    'isArray': 'true'
                 }
 
         point_api['commonUrl'] = self.get_common_url([
