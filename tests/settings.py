@@ -16,6 +16,7 @@ INSTALLED_APPS=[
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'drf_ng_generator',
+    'rest_framework_swagger',
     'tests'
 ]
 TEMPLATES = [

@@ -4,15 +4,15 @@
         "alias": {},
         "api": {
             "list": {
-                "url": "/userlist/",
+                "url": "/api/v1/userlist/",
                 "contentType": "",
                 "method": "GET",
                 "options":{
-                    "isArray": true
+                    "isArray": "true"
                 }
             }
         },
-        "commonUrl": "/userlist/"
+        "commonUrl": "/api/v1/userlist/"
     },
     "users": {
         "commonUrlParams": ["id"],
@@ -23,53 +23,53 @@
         },
         "api": {
             "read": {
-                "url": "/users/:id/",
+                "url": "/api/v1/users/:id/",
                 "contentType": "",
                 "method": "GET"
             },
             "create": {
-                "url": "/users/",
+                "url": "/api/v1/users/",
                 "contentType": "application/json",
                 "method": "POST"
             },
             "list": {
-                "url": "/users/",
+                "url": "/api/v1/users/",
                 "contentType": "",
                 "method": "GET",
                 "options": {
-                    "isArray": true
+                    "isArray": "true"
                 }
             },
             "update": {
-                "url": "/users/:id/",
+                "url": "/api/v1/users/:id/",
                 "contentType": "application/json",
                 "method": "PUT"
             },
             "partialUpdate": {
-                "url": "/users/:id/",
+                "url": "/api/v1/users/:id/",
                 "contentType": "application/json",
                 "method": "PATCH"
             },
             "testDetailRouteDecorator": {
-                "url": "/users/:id/test_detail_route_decorator/",
+                "url": "/api/v1/users/:id/test_detail_route_decorator/",
                 "contentType": "application/json",
                 "method": "PUT"
             },
             "testListRouteDecorator": {
-                "url": "/users/test_list_route_decorator/",
+                "url": "/api/v1/users/test_list_route_decorator/",
                 "contentType": "",
                 "method": "GET",
                 "options": {
-                    "isArray": true
+                    "isArray": "true"
                 }
             },
             "delete": {
-                "url": "/users/:id/",
+                "url": "/api/v1/users/:id/",
                 "contentType": "",
                 "method": "DELETE"
             }
         },
-        "commonUrl": "/users/:id/"
+        "commonUrl": "/api/v1/users/:id/"
     },
     "custom": {
         "commonUrlParams": ["id"],
@@ -79,24 +79,24 @@
         },
         "api": {
             "testListRouteDecorator": {
-                "url": "/custom/test_list_route_decorator/",
+                "url": "/api/v1/custom/test_list_route_decorator/",
                 "contentType": "",
                 "method": "GET",
                 "options": {
-                    "isArray": true
+                    "isArray": "true"
                 }
             },
             "delete": {
-                "url": "/custom/:id/",
+                "url": "/api/v1/custom/:id/",
                 "contentType": "",
                 "method": "DELETE"
             },
             "testDetailRouteDecorator": {
-                "url": "/custom/:id/test_detail_route_decorator/",
+                "url": "/api/v1/custom/:id/test_detail_route_decorator/",
                 "contentType": "",
                 "method": "PATCH"
             }
         },
-        "commonUrl": "/custom/:id/"
+        "commonUrl": "/api/v1/custom/:id/"
     }
 }

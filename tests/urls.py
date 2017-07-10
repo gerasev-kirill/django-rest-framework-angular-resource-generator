@@ -1,11 +1,10 @@
 from rest_framework import routers
-from django.conf.urls import url
-from . import viewsets
+from django.conf.urls import url, include
+from rest_framework_swagger.views import get_swagger_view
 
-router = routers.SimpleRouter()
-router.register(r'users', viewsets.UserViewset)
-router.register(r'custom', viewsets.CustomViewset, 'Custom')
+schema_view = get_swagger_view(title='Site API')
 
 urlpatterns = [
-    url('^userlist/$', viewsets.UserListView.as_view())
-] + router.urls
+    url('^api/v1/', include('tests.rest.urls')),
+    url(r'^docs/', schema_view)
+]
