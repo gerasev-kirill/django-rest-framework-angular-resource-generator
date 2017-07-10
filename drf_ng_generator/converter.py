@@ -1,4 +1,4 @@
-import re
+import re, coreapi
 from . import helpers
 
 
@@ -28,8 +28,7 @@ class SchemaConverter:
             'api': {},
             'alias':{}
         }
-
-        for point_name,link in point.items():
+        def add_point(point_name, link):
             url, url_params = helpers.normalize_url(link.url)
             action = helpers.to_camelCase(point_name)
 
@@ -51,6 +50,14 @@ class SchemaConverter:
                 }
             elif point_name == 'partial_update':
                 point_api['alias']['updateAttributes'] = 'partialUpdate'
+
+        for point_name,link in point.items():
+            if isinstance(link, coreapi.document.Object):
+                for _point_name, _link in obj.items():
+                    add_point(point_name, _link)
+            else:
+                add_point(point_name, link)
+
 
         point_api['commonUrl'] = self.get_common_url([
             p['url']
