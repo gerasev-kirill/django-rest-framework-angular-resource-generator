@@ -19,7 +19,8 @@
         "alias": {
             "destroyById": "delete",
             "deleteById": "delete",
-            "findById": "read"
+            "findById": "read",
+            "updateAttributes": "partialUpdate"
         },
         "api": {
             "read": {

@@ -49,6 +49,8 @@ class SchemaConverter:
                 point_api['api'][action]['options'] = {
                     'isArray': 'true'
                 }
+            elif point_name == 'partial_update':
+                point_api['alias']['updateAttributes'] = 'partialUpdate'
 
         point_api['commonUrl'] = self.get_common_url([
             p['url']
