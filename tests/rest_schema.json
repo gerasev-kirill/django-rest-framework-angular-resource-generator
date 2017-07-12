@@ -1,7 +1,9 @@
 {
     "userlist": {
         "commonUrlParams": [],
-        "alias": {},
+        "alias": {
+            "find": "list"
+        },
         "api": {
             "list": {
                 "url": "/api/v1/userlist/",
@@ -20,6 +22,7 @@
         "alias": {
             "destroyById": "delete",
             "deleteById": "delete",
+            "find": "list",
             "findById": "read",
             "updateAttributes": "partialUpdate"
         },

@@ -51,6 +51,9 @@ class SchemaConverter:
                 }
             elif point_name == 'partial_update':
                 point_api['alias']['updateAttributes'] = 'partialUpdate'
+            if point_name == 'list':
+                point_api['alias']['find'] = 'list'
+
 
         for point_name,link in point.items():
             if isinstance(link, coreapi.document.Object):
@@ -71,6 +74,11 @@ class SchemaConverter:
                 point_api['commonUrl'] += '/:id/'
 
         point_api['commonUrlParams'] = list(set(point_api['commonUrlParams']))
+        # remove overrides from alias
+        for alias_name, name in point_api['alias'].items():
+            if alias_name in point_api['api']:
+                del point_api['alias'][alias_name]
+
         return point_api
 
 
