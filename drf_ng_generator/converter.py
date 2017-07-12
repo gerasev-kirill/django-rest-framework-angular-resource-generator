@@ -37,7 +37,8 @@ class SchemaConverter:
                 'url': url,
                 'method': link.action.upper(),
                 'contentType': link.encoding,
-                'view': link._view
+                'view': link._view,
+                'action': point_name
             }
 
             if point_name in ['destroy', 'delete'] and ':id/' in url:

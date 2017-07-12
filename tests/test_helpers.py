@@ -28,6 +28,15 @@ class TestGenerator(TestCase):
             cb.__code__.co_code,
             original_cb.__code__.co_code
         )
+        cb, raw_url, method = helpers.resolve_api_callback_by_name(rest_schema, 'users', 'testListRouteDecorator')
+        original_cb = UserViewset.as_view({'get': 'test_list_route_decorator'})
+
+        self.assertEqual(method, 'get')
+        # check by function code
+        self.assertEqual(
+            cb.__code__.co_code,
+            original_cb.__code__.co_code
+        )
 
 
         cb, raw_url, method = helpers.resolve_api_callback_by_name(rest_schema, 'users', 'Nomethod')
