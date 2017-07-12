@@ -19,8 +19,8 @@ class TestGenerator(TestCase):
         converter = SchemaConverter()
         rest_schema = converter.convert(schema)
 
-        cb, method = helpers.resolve_api_callback_by_name(rest_schema, 'users', 'list')
-        original_cb = UserViewset().list
+        cb, raw_url, method = helpers.resolve_api_callback_by_name(rest_schema, 'users', 'list')
+        original_cb = UserViewset.as_view({'get': 'list'})
 
         self.assertEqual(method, 'get')
         # check by function code
@@ -30,7 +30,7 @@ class TestGenerator(TestCase):
         )
 
 
-        cb, method = helpers.resolve_api_callback_by_name(rest_schema, 'users', 'Nomethod')
+        cb, raw_url, method = helpers.resolve_api_callback_by_name(rest_schema, 'users', 'Nomethod')
         self.assertEqual(cb, None)
-        cb, method = helpers.resolve_api_callback_by_name(rest_schema, 'Nopoint', 'Nomethod')
+        cb, raw_url, method = helpers.resolve_api_callback_by_name(rest_schema, 'Nopoint', 'Nomethod')
         self.assertEqual(cb, None)

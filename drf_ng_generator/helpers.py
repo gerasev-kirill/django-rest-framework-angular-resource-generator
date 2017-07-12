@@ -19,16 +19,79 @@ def to_camelCase(text):
     return text
 
 
+
+DRF_OLD_ACTION_MAP = {
+    'read': 'retrieve',
+    'delete': 'destroy'
+}
+
+
 def resolve_api_callback_by_name(api_doc, viewset_name, action_name):
     doc = api_doc.get(viewset_name, None)
     if not doc:
-        return None, None
+        return None, None, None
     action_name = doc['alias'].get(action_name, action_name)
     action = doc['api'].get(action_name, None)
     if not action:
-        return None, None
-    callback = getattr(action['view'], action_name, None)
-    return callback, action['method'].lower()
+        return None, None, None
+
+    view = action['view'].__class__
+
+    if not hasattr(view, action_name):
+        if hasattr(view, DRF_OLD_ACTION_MAP.get(action_name)):
+            action_name = DRF_OLD_ACTION_MAP[action_name]
+
+    if not hasattr(view, action_name):
+        for method, alias in getattr(view, 'action_map', {}).items():
+            if action_name == alias:
+                action_name = alias
+
+    if not hasattr(view, action_name):
+        return None, None, None
+
+    data = {}
+    data[action['method'].lower()] = action_name
+    callback = view.as_view(data)
+
+    return callback, action['url'], action['method'].lower()
+
+
+DRF_OLD_ACTION_MAP = {
+    'read': 'retrieve',
+    'delete': 'destroy'
+}
+
+
+def resolve_api_callback_by_name(api_doc, viewset_name, action_name):
+    doc = api_doc.get(viewset_name, None)
+    if not doc:
+        return None, None, None
+    action_name = doc['alias'].get(action_name, action_name)
+    action = doc['api'].get(action_name, None)
+    if not action:
+        return None, None, None
+
+    view = action['view'].__class__
+
+    if not hasattr(view, action_name) and DRF_OLD_ACTION_MAP.get(action_name, None):
+        if hasattr(view, DRF_OLD_ACTION_MAP[action_name]):
+            action_name = DRF_OLD_ACTION_MAP[action_name]
+
+    if not hasattr(view, action_name):
+        for method, alias in getattr(view, 'action_map', {}).items():
+            if action_name == alias:
+                action_name = alias
+                break
+
+    if not hasattr(view, action_name):
+        return None, None, None
+
+    data = {}
+    data[action['method'].lower()] = action_name
+    callback = view.as_view(data)
+
+    return callback, action['url'], action['method'].lower()
+
 
 
 
