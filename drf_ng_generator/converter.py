@@ -36,7 +36,8 @@ class SchemaConverter:
             point_api['api'][action] = {
                 'url': url,
                 'method': link.action.upper(),
-                'contentType': link.encoding
+                'contentType': link.encoding,
+                'view': link._view
             }
 
             if point_name in ['destroy', 'delete'] and ':id/' in url:

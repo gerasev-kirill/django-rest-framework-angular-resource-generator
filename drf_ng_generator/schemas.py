@@ -15,7 +15,10 @@ class SchemaGenerator(schemas.SchemaGenerator):
         'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'
     )
 
-
+    def get_link(self, path, method, view):
+        link = super(SchemaGenerator, self).get_link(path, method, view)
+        link._view = view
+        return link
 
     def get_key(self, path, method, callback):
         category, action = super(SchemaGenerator, self).get_key(path, method, callback)

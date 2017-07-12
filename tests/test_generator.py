@@ -2,7 +2,7 @@ from django.test import TestCase, RequestFactory
 from django.conf import settings
 import json, os
 
-from drf_ng_generator import schemas
+from drf_ng_generator import schemas, helpers
 from drf_ng_generator.converter import SchemaConverter
 
 
@@ -20,6 +20,9 @@ class TestGenerator(TestCase):
         schema = generator.get_schema()
         converter = SchemaConverter()
         rest_schema = converter.convert(schema)
+        rest_schema = json.loads(
+            helpers.dumps_api_doc(rest_schema)
+        )
 
         self.assertDictEqual(
             rest_schema,

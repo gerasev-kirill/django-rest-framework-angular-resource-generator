@@ -7,6 +7,7 @@
                 "url": "/api/v1/userlist/",
                 "contentType": "",
                 "method": "GET",
+                "view": "UserListView",
                 "options":{
                     "isArray": "true"
                 }
@@ -26,17 +27,20 @@
             "read": {
                 "url": "/api/v1/users/:id/",
                 "contentType": "",
-                "method": "GET"
+                "method": "GET",
+                "view": "UserViewset"
             },
             "create": {
                 "url": "/api/v1/users/",
                 "contentType": "application/json",
-                "method": "POST"
+                "method": "POST",
+                "view": "UserViewset"
             },
             "list": {
                 "url": "/api/v1/users/",
                 "contentType": "",
                 "method": "GET",
+                "view": "UserViewset",
                 "options": {
                     "isArray": "true"
                 }
@@ -44,22 +48,26 @@
             "update": {
                 "url": "/api/v1/users/:id/",
                 "contentType": "application/json",
-                "method": "PUT"
+                "method": "PUT",
+                "view": "UserViewset"
             },
             "partialUpdate": {
                 "url": "/api/v1/users/:id/",
                 "contentType": "application/json",
-                "method": "PATCH"
+                "method": "PATCH",
+                "view": "UserViewset"
             },
             "testDetailRouteDecorator": {
                 "url": "/api/v1/users/:id/test_detail_route_decorator/",
                 "contentType": "application/json",
-                "method": "PUT"
+                "method": "PUT",
+                "view": "UserViewset"
             },
             "testListRouteDecorator": {
                 "url": "/api/v1/users/test_list_route_decorator/",
                 "contentType": "",
                 "method": "GET",
+                "view": "UserViewset",
                 "options": {
                     "isArray": "true"
                 }
@@ -67,7 +75,8 @@
             "delete": {
                 "url": "/api/v1/users/:id/",
                 "contentType": "",
-                "method": "DELETE"
+                "method": "DELETE",
+                "view": "UserViewset"
             }
         },
         "commonUrl": "/api/v1/users/:id/"
@@ -83,6 +92,7 @@
                 "url": "/api/v1/custom/test_list_route_decorator/",
                 "contentType": "",
                 "method": "GET",
+                "view": "CustomViewset",
                 "options": {
                     "isArray": "true"
                 }
@@ -90,12 +100,14 @@
             "delete": {
                 "url": "/api/v1/custom/:id/",
                 "contentType": "",
-                "method": "DELETE"
+                "method": "DELETE",
+                "view": "CustomViewset"
             },
             "testDetailRouteDecorator": {
                 "url": "/api/v1/custom/:id/test_detail_route_decorator/",
                 "contentType": "",
-                "method": "PATCH"
+                "method": "PATCH",
+                "view": "CustomViewset"
             }
         },
         "commonUrl": "/api/v1/custom/:id/"
