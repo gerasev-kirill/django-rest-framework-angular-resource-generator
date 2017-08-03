@@ -17,11 +17,12 @@
 
     urlBaseHost = getHost(urlBase) || location.host;
 
-    angular.module("{{SERVICE_PREFIX_NAME}}Services", ['ngResource']).config(function($resourceProvider, $httpProvider) {
+    angular.module("{{SERVICE_PREFIX_NAME}}Services", ['ngResource']).config([
+        "$resourceProvider", "$httpProvider", function($resourceProvider, $httpProvider) {
         $resourceProvider.defaults.stripTrailingSlashes = false;
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
         $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-    })
+    }])
 
     {% for modelName,conf in API.items %}
     .factory("{{modelName}}", [

@@ -59,7 +59,7 @@ class SchemaConverter:
         for point_name,link in point.items():
             if isinstance(link, coreapi.document.Object):
                 for _point_name, _link in link.items():
-                    add_point(point_name, _link)
+                    add_point(_point_name, _link)
             else:
                 add_point(point_name, link)
 

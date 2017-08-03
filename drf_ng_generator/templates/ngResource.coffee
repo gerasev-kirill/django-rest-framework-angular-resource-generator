@@ -15,11 +15,11 @@ urlBaseHost = getHost(urlBase) || location.host
 
 angular.module("{{SERVICE_PREFIX_NAME}}Services", ['ngResource'])
 
-.config ($resourceProvider, $httpProvider)->
+.config([ "$resourceProvider", "$httpProvider", ($resourceProvider, $httpProvider)->
     $resourceProvider.defaults.stripTrailingSlashes = false
     $httpProvider.defaults.xsrfCookieName = 'csrftoken'
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken'
-
+])
 
 
 {% for modelName,conf in API.items %}
