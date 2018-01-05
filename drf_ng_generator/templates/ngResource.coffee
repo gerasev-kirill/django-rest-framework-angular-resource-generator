@@ -1,6 +1,6 @@
 'use strict'
 
-urlBase = ''
+urlBase = '{{API_URL_BASE}}'
 authHeader = 'Authorization'
 
 getHost = (url)->

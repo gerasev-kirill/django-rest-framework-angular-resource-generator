@@ -34,21 +34,21 @@ class TestTemplate(TestCase):
 
 
     def test_coffee(self):
-        rest_schema = self.get_schema()
+        rest_schema, base_url = self.get_schema()
 
         coffee = render_to_string(
             'ngResource.coffee',
-            {'API': rest_schema}
+            {'API': rest_schema, 'API_URL_BASE': base_url}
         )
         self.__test(coffee)
 
 
     def test_js(self):
-        rest_schema = self.get_schema()
+        rest_schema, base_url = self.get_schema()
 
         js = render_to_string(
             'ngResource.js',
-            {'API': rest_schema}
+            {'API': rest_schema, 'API_URL_BASE': base_url}
         )
         self.__test(js)
 

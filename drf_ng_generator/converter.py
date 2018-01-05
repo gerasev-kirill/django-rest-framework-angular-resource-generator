@@ -1,18 +1,18 @@
-import re, coreapi
+import re
+import coreapi
+import json
 from . import helpers
 
 
-
-
-
 class SchemaConverter:
+
     def __init__(self, schema=None):
         self.schema = schema
 
-
     def get_common_url(self, strList):
         "Given a list of strings, returns the longest common leading component"
-        if not strList: return ''
+        if not strList:
+            return ''
         s1 = min(strList)
         s2 = max(strList)
         for i, c in enumerate(s1):
@@ -20,14 +20,14 @@ class SchemaConverter:
                 return s1[:i]
         return s1
 
-
     def api_point_to_definition(self, point):
         point_api = {
             'commonUrl': '',
             'commonUrlParams': [],
             'api': {},
-            'alias':{}
+            'alias': {}
         }
+
         def add_point(point_name, link):
             url, url_params = helpers.normalize_url(link.url)
             action = helpers.to_camelCase(point_name)
@@ -55,20 +55,22 @@ class SchemaConverter:
             if point_name == 'list':
                 point_api['alias']['find'] = 'list'
 
-
-        for point_name,link in point.items():
+        for point_name, link in point.items():
             if isinstance(link, coreapi.document.Object):
                 for _point_name, _link in link.items():
-                    add_point(_point_name, _link)
+                    if isinstance(_link, coreapi.document.Object):
+                        for _point_name, __link in _link.items():
+                            add_point(_point_name, __link)
+                    else:
+                        add_point(_point_name, _link)
             else:
                 add_point(point_name, link)
 
-
         point_api['commonUrl'] = self.get_common_url([
             p['url']
-            for k,p in point_api['api'].items()
+            for k, p in point_api['api'].items()
         ])
-        if 'id' in point_api['commonUrlParams']  and ':id/' not in point_api['commonUrl']:
+        if 'id' in point_api['commonUrlParams'] and ':id/' not in point_api['commonUrl']:
             if point_api['commonUrl'][-1] == '/':
                 point_api['commonUrl'] += ':id/'
             else:
@@ -82,12 +84,32 @@ class SchemaConverter:
 
         return point_api
 
-
-
     def convert(self, schema=None):
         api_schema = {}
         schema = schema or self.schema
-        for k,v in schema.data.items():
+        for k, v in schema.data.items():
             api_schema[k] = self.api_point_to_definition(v)
 
-        return api_schema
+        common_urls = []
+        for n in api_schema:
+            params = api_schema[n]
+            common_urls.append(params['commonUrl'])
+        api_url_base = self.get_common_url(common_urls)
+        if api_url_base == '/':
+            api_url_base = ''
+        if api_url_base[-1] == '/':
+            api_url_base = api_url_base[:-1]
+
+        for n in api_schema:
+            api_schema[n]['commonUrl'] = api_schema[n]['commonUrl'].replace(
+                api_url_base,
+                '',
+                1
+            )
+            for p in api_schema[n]['api']:
+                api_schema[n]['api'][p]['url'] = api_schema[n]['api'][p]['url'].replace(
+                    api_url_base,
+                    '',
+                    1
+                )
+        return api_schema, api_url_base

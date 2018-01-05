@@ -6,7 +6,7 @@
         },
         "api": {
             "list": {
-                "url": "/api/v1/userlist/",
+                "url": "/userlist/",
                 "contentType": "",
                 "method": "GET",
                 "view": "UserListView",
@@ -16,7 +16,7 @@
                 }
             }
         },
-        "commonUrl": "/api/v1/userlist/"
+        "commonUrl": "/userlist/"
     },
     "users": {
         "commonUrlParams": ["id"],
@@ -29,21 +29,21 @@
         },
         "api": {
             "read": {
-                "url": "/api/v1/users/:id/",
+                "url": "/users/:id/",
                 "contentType": "",
                 "method": "GET",
                 "view": "UserViewset",
                 "action": "read"
             },
             "create": {
-                "url": "/api/v1/users/",
+                "url": "/users/",
                 "contentType": "application/json",
                 "method": "POST",
                 "view": "UserViewset",
                 "action": "create"
             },
             "list": {
-                "url": "/api/v1/users/",
+                "url": "/users/",
                 "contentType": "",
                 "method": "GET",
                 "view": "UserViewset",
@@ -53,28 +53,28 @@
                 }
             },
             "update": {
-                "url": "/api/v1/users/:id/",
+                "url": "/users/:id/",
                 "contentType": "application/json",
                 "method": "PUT",
                 "action": "update",
                 "view": "UserViewset"
             },
             "partialUpdate": {
-                "url": "/api/v1/users/:id/",
+                "url": "/users/:id/",
                 "contentType": "application/json",
                 "method": "PATCH",
                 "action": "partial_update",
                 "view": "UserViewset"
             },
             "testDetailRouteDecorator": {
-                "url": "/api/v1/users/:id/test_detail_route_decorator/",
+                "url": "/users/:id/test_detail_route_decorator/",
                 "contentType": "application/json",
                 "method": "PUT",
                 "action": "test_detail_route_decorator",
                 "view": "UserViewset"
             },
             "testListRouteDecorator": {
-                "url": "/api/v1/users/test_list_route_decorator/",
+                "url": "/users/test_list_route_decorator/",
                 "contentType": "",
                 "method": "GET",
                 "view": "UserViewset",
@@ -84,14 +84,14 @@
                 }
             },
             "delete": {
-                "url": "/api/v1/users/:id/",
+                "url": "/users/:id/",
                 "contentType": "",
                 "method": "DELETE",
                 "action": "delete",
                 "view": "UserViewset"
             }
         },
-        "commonUrl": "/api/v1/users/:id/"
+        "commonUrl": "/users/:id/"
     },
     "custom": {
         "commonUrlParams": ["id"],
@@ -101,7 +101,7 @@
         },
         "api": {
             "testListRouteDecorator": {
-                "url": "/api/v1/custom/test_list_route_decorator/",
+                "url": "/custom/test_list_route_decorator/",
                 "contentType": "",
                 "method": "GET",
                 "view": "CustomViewset",
@@ -111,20 +111,20 @@
                 }
             },
             "delete": {
-                "url": "/api/v1/custom/:id/",
+                "url": "/custom/:id/",
                 "contentType": "",
                 "method": "DELETE",
                 "action": "delete",
                 "view": "CustomViewset"
             },
             "testDetailRouteDecorator": {
-                "url": "/api/v1/custom/:id/test_detail_route_decorator/",
+                "url": "/custom/:id/test_detail_route_decorator/",
                 "contentType": "",
                 "method": "PATCH",
                 "action": "test_detail_route_decorator",
                 "view": "CustomViewset"
             }
         },
-        "commonUrl": "/api/v1/custom/:id/"
+        "commonUrl": "/custom/:id/"
     }
 }

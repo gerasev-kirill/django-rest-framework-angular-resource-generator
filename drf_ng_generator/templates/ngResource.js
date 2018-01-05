@@ -2,7 +2,7 @@
     'use strict';
     var authHeader, getHost, urlBase, urlBaseHost;
 
-    urlBase = '';
+    urlBase = '{{API_URL_BASE}}';
 
     authHeader = 'Authorization';
 

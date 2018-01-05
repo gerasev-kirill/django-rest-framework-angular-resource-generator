@@ -17,7 +17,7 @@ class TestGenerator(TestCase):
         generator = schemas.SchemaGenerator()
         schema = generator.get_schema()
         converter = SchemaConverter()
-        rest_schema = converter.convert(schema)
+        rest_schema, api_url_base = converter.convert(schema)
 
         cb, raw_url, method = helpers.resolve_api_callback_by_name(rest_schema, 'users', 'list')
         original_cb = UserViewset.as_view({'get': 'list'})

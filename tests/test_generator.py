@@ -19,11 +19,12 @@ class TestGenerator(TestCase):
         generator = schemas.SchemaGenerator()
         schema = generator.get_schema()
         converter = SchemaConverter()
-        rest_schema = converter.convert(schema)
+        rest_schema, api_url_base = converter.convert(schema)
         rest_schema = json.loads(
             helpers.dumps_api_doc(rest_schema)
         )
 
+        self.assertEqual(api_url_base, '/api/v1')
         self.assertDictEqual(
             rest_schema,
             REST_SCHEMA
