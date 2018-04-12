@@ -36,7 +36,7 @@
                 "{{actionName}}": {
                     url: urlBase + "{{actionConf.url}}",
                     method: "{{actionConf.method}}", {% for on,ov in actionConf.options.items %}
-                    {{on}}: {{ov}}{% endfor %}{% if actionName == 'login' or actionName == 'register' %}
+                    {{on}}: {{ov}},{% endfor %}{% if actionName == 'login' or actionName == 'register' %}
                     interceptor: {
                         response: function(response) {
                             var data, params;

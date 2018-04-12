@@ -27,12 +27,13 @@ class Command(BaseCommand):
                 fpath += '.js'
                 ext = '.js'
             app_api, api_url_base = converter.convert(schema)
+            prefix = getattr(settings, 'DRFGEN_SERVICE_PREFIX_NAME', None) or getattr(settings, 'DRF_GENERATOR_SERVICE_PREFIX_NAME', None) or 'dj'
             resources = render_to_string(
                 'ngResource'+ext,
                 {
                     'API': app_api,
                     'API_URL_BASE': api_url_base,
-                    'SERVICE_PREFIX_NAME': getattr(settings, 'DRFGEN_SERVICE_PREFIX_NAME', 'dj')
+                    'SERVICE_PREFIX_NAME': prefix
                 }
             )
             with open(fpath, 'w') as f:

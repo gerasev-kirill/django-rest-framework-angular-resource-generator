@@ -38,8 +38,11 @@ class SchemaConverter:
                 'method': link.action.upper(),
                 'contentType': link.encoding,
                 'view': link._view,
-                'action': point_name
+                'action': point_name,
+                'options': {}
             }
+            if link.action.upper() in ['GET']:
+                point_api['api'][action]['options']['cancellable'] = 'true'
 
             if point_name in ['destroy', 'delete'] and ':id/' in url:
                 point_api['alias']['deleteById'] = point_name
@@ -47,13 +50,12 @@ class SchemaConverter:
             elif point_name in ['retrieve', 'get', 'read'] and ':id/' in url:
                 point_api['alias']['findById'] = point_name
             elif 'list' in point_name.lower():
-                point_api['api'][action]['options'] = {
-                    'isArray': 'true'
-                }
+                point_api['api'][action]['options']['isArray'] = 'true'
             elif point_name == 'partial_update':
                 point_api['alias']['updateAttributes'] = 'partialUpdate'
             if point_name == 'list':
                 point_api['alias']['find'] = 'list'
+                point_api['alias']['query'] = 'list'
 
         for point_name, link in point.items():
             if isinstance(link, coreapi.document.Object):
