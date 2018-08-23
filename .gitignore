@@ -3,6 +3,7 @@ dist
 *.pyc
 *.pyo
 ap2
+ap3
 .*
 !.gitignore
 !.travis.yml

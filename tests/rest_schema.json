@@ -1,130 +1,150 @@
 {
     "userlist": {
-        "commonUrlParams": [],
         "alias": {
+            "query": "list",
             "find": "list"
         },
         "api": {
             "list": {
-                "url": "/userlist/",
                 "contentType": "",
-                "method": "GET",
-                "view": "UserListView",
+                "url": "/userlist/",
+                "options": {
+                    "isArray": "true",
+                    "cancellable": "true"
+                },
                 "action": "list",
-                "options":{
-                    "isArray": "true"
-                }
+                "method": "GET",
+                "view": "UserListView"
             }
         },
-        "commonUrl": "/userlist/"
+        "commonUrl": "/userlist/",
+        "commonUrlParams": []
     },
     "users": {
-        "commonUrlParams": ["id"],
         "alias": {
             "destroyById": "delete",
             "deleteById": "delete",
-            "find": "list",
             "findById": "read",
-            "updateAttributes": "partialUpdate"
+            "updateAttributes": "partialUpdate",
+            "query": "list",
+            "find": "list"
         },
         "api": {
             "read": {
-                "url": "/users/:id/",
                 "contentType": "",
+                "url": "/users/:id/",
+                "options": {
+                    "cancellable": "true"
+                },
+                "action": "read",
                 "method": "GET",
-                "view": "UserViewset",
-                "action": "read"
+                "view": "UserViewset"
             },
             "create": {
-                "url": "/users/",
                 "contentType": "application/json",
+                "url": "/users/",
+                "options": {},
+                "action": "create",
                 "method": "POST",
-                "view": "UserViewset",
-                "action": "create"
+                "view": "UserViewset"
             },
             "list": {
-                "url": "/users/",
                 "contentType": "",
-                "method": "GET",
-                "view": "UserViewset",
-                "action": "list",
+                "url": "/users/",
                 "options": {
-                    "isArray": "true"
-                }
+                    "isArray": "true",
+                    "cancellable": "true"
+                },
+                "action": "list",
+                "method": "GET",
+                "view": "UserViewset"
             },
             "update": {
-                "url": "/users/:id/",
                 "contentType": "application/json",
-                "method": "PUT",
+                "url": "/users/:id/",
+                "options": {},
                 "action": "update",
+                "method": "PUT",
                 "view": "UserViewset"
             },
             "partialUpdate": {
+                "contentType": "application/json",
                 "url": "/users/:id/",
-                "contentType": "application/json",
-                "method": "PATCH",
+                "options": {},
                 "action": "partial_update",
-                "view": "UserViewset"
-            },
-            "testDetailRouteDecorator": {
-                "url": "/users/:id/test_detail_route_decorator/",
-                "contentType": "application/json",
-                "method": "PUT",
-                "action": "test_detail_route_decorator",
+                "method": "PATCH",
                 "view": "UserViewset"
             },
             "testListRouteDecorator": {
-                "url": "/users/test_list_route_decorator/",
                 "contentType": "",
-                "method": "GET",
-                "view": "UserViewset",
-                "action": "test_list_route_decorator",
+                "url": "/users/test_list_route_decorator/",
                 "options": {
-                    "isArray": "true"
-                }
+                    "isArray": "true",
+                    "cancellable": "true"
+                },
+                "action": "test_list_route_decorator",
+                "method": "GET",
+                "view": "UserViewset"
+            },
+            "testDetailRouteDecorator": {
+                "contentType": "application/json",
+                "url": "/users/:id/test_detail_route_decorator/",
+                "options": {},
+                "action": "test_detail_route_decorator",
+                "method": "PUT",
+                "view": "UserViewset"
             },
             "delete": {
-                "url": "/users/:id/",
                 "contentType": "",
-                "method": "DELETE",
+                "url": "/users/:id/",
+                "options": {},
                 "action": "delete",
+                "method": "DELETE",
                 "view": "UserViewset"
             }
         },
-        "commonUrl": "/users/:id/"
+        "commonUrl": "/users/:id/",
+        "commonUrlParams": [
+            "id"
+        ]
     },
     "custom": {
-        "commonUrlParams": ["id"],
         "alias": {
             "destroyById": "delete",
             "deleteById": "delete"
         },
         "api": {
             "testListRouteDecorator": {
+                "contentType": "",
                 "url": "/custom/test_list_route_decorator/",
-                "contentType": "",
-                "method": "GET",
-                "view": "CustomViewset",
-                "action": "test_list_route_decorator",
                 "options": {
-                    "isArray": "true"
-                }
-            },
-            "delete": {
-                "url": "/custom/:id/",
-                "contentType": "",
-                "method": "DELETE",
-                "action": "delete",
+                    "isArray": "true",
+                    "cancellable": "true"
+                },
+                "action": "test_list_route_decorator",
+                "method": "GET",
                 "view": "CustomViewset"
             },
             "testDetailRouteDecorator": {
-                "url": "/custom/:id/test_detail_route_decorator/",
                 "contentType": "",
-                "method": "PATCH",
+                "url": "/custom/:id/test_detail_route_decorator/",
+                "options": {},
                 "action": "test_detail_route_decorator",
+                "method": "PATCH",
+                "view": "CustomViewset"
+            },
+            "delete": {
+                "contentType": "",
+                "url": "/custom/:id/",
+                "options": {},
+                "action": "delete",
+                "method": "DELETE",
                 "view": "CustomViewset"
             }
         },
-        "commonUrl": "/custom/:id/"
+        "commonUrl": "/custom/:id/",
+        "commonUrlParams": [
+            "id"
+        ]
     }
 }
