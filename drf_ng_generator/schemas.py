@@ -21,8 +21,6 @@ def insert_into(target, keys, value):
             target[key] = {}
         if not isinstance(target[key], coreapi.Link):
             target = target[key]
-    #print()
-    #print(target, keys, value)
     target[keys[-1]] = value
 
 
