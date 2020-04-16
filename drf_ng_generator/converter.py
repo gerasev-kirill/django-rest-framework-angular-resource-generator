@@ -39,7 +39,7 @@ class SchemaConverter:
                 'contentType': link.encoding,
                 'view': link._view,
                 'action': point_name,
-                'options': {}
+                'options': OrderedDict()
             }
             if link.action.upper() in ['GET']:
                 point_api['api'][action]['options']['cancellable'] = 'true'
@@ -79,6 +79,7 @@ class SchemaConverter:
                 point_api['commonUrl'] += '/:id/'
 
         point_api['commonUrlParams'] = list(set(point_api['commonUrlParams']))
+        point_api['commonUrlParams'].sort()
         # remove overrides from alias
         for alias_name, name in point_api['alias'].items():
             if alias_name in point_api['api']:
