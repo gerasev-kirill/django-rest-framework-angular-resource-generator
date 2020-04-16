@@ -6,6 +6,7 @@
         },
         "api": {
             "list": {
+                "actionName": "list",
                 "contentType": "",
                 "url": "/userlist/",
                 "options": {
@@ -31,6 +32,7 @@
         },
         "api": {
             "read": {
+                "actionName": "read",
                 "contentType": "",
                 "url": "/users/:id/",
                 "options": {
@@ -41,6 +43,7 @@
                 "view": "UserViewset"
             },
             "create": {
+                "actionName": "create",
                 "contentType": "application/json",
                 "url": "/users/",
                 "options": {},
@@ -49,6 +52,7 @@
                 "view": "UserViewset"
             },
             "list": {
+                "actionName": "list",
                 "contentType": "",
                 "url": "/users/",
                 "options": {
@@ -60,6 +64,7 @@
                 "view": "UserViewset"
             },
             "update": {
+                "actionName": "update",
                 "contentType": "application/json",
                 "url": "/users/:id/",
                 "options": {},
@@ -68,6 +73,7 @@
                 "view": "UserViewset"
             },
             "partialUpdate": {
+                "actionName": "partialUpdate",
                 "contentType": "application/json",
                 "url": "/users/:id/",
                 "options": {},
@@ -76,6 +82,7 @@
                 "view": "UserViewset"
             },
             "testListRouteDecorator": {
+                "actionName": "testListRouteDecorator",
                 "contentType": "",
                 "url": "/users/test_list_route_decorator/",
                 "options": {
@@ -87,6 +94,7 @@
                 "view": "UserViewset"
             },
             "testDetailRouteDecorator": {
+                "actionName": "testDetailRouteDecorator",
                 "contentType": "application/json",
                 "url": "/users/:id/test_detail_route_decorator/",
                 "options": {},
@@ -95,6 +103,7 @@
                 "view": "UserViewset"
             },
             "delete": {
+                "actionName": "delete",
                 "contentType": "",
                 "url": "/users/:id/",
                 "options": {},
@@ -115,6 +124,7 @@
         },
         "api": {
             "testListRouteDecorator": {
+                "actionName": "testListRouteDecorator",
                 "contentType": "",
                 "url": "/custom/test_list_route_decorator/",
                 "options": {
@@ -126,6 +136,7 @@
                 "view": "CustomViewset"
             },
             "testDetailRouteDecorator": {
+                "actionName": "testDetailRouteDecorator",
                 "contentType": "",
                 "url": "/custom/:id/test_detail_route_decorator/",
                 "options": {},
@@ -134,6 +145,7 @@
                 "view": "CustomViewset"
             },
             "delete": {
+                "actionName": "delete",
                 "contentType": "",
                 "url": "/custom/:id/",
                 "options": {},

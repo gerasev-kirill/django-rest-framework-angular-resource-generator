@@ -18,7 +18,7 @@ class TestTemplate(TestCase):
         generator = schemas.SchemaGenerator()
         schema = generator.get_schema()
         converter = SchemaConverter()
-        return converter.convert(schema)
+        return converter.convert(schema, order=True)
 
     def __test(self, file_content):
         for modelName, conf in REST_SCHEMA.items():

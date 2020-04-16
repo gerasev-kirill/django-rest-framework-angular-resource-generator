@@ -32,11 +32,11 @@
             { {% for param in conf.commonUrlParams %}
                 {{param}}: '@{{param}}',{% endfor %}
             },
-            { {% for actionName,actionConf in conf.api.items %}
-                "{{actionName}}": {
+            { {% for actionConf in conf.api %}
+                "{{actionConf.actionName}}": {
                     url: urlBase + "{{actionConf.url}}",
                     method: "{{actionConf.method}}", {% for on,ov in actionConf.options.items %}
-                    {{on}}: {{ov}},{% endfor %}{% if actionName == 'login' or actionName == 'register' %}
+                    {{on}}: {{ov}},{% endfor %}{% if actionConf.actionName == 'login' or actionConf.actionName == 'register' %}
                     interceptor: {
                         response: function(response) {
                             var data, params;
@@ -47,7 +47,7 @@
                             {{SERVICE_PREFIX_NAME}}Auth.save();
                             return response.resource;
                         }
-                    },{% endif %}{% if actionName == 'logout' %}
+                    },{% endif %}{% if actionConf.actionName == 'logout' %}
                     interceptor: {
                         response: function(response) {
                             {{SERVICE_PREFIX_NAME}}Auth.clearUser();
@@ -57,8 +57,8 @@
                     }{% endif %}
                 },{% endfor %}
             });
-            {% for alias,toAction in conf.alias.items %}
-            R['{{alias}}'] = R['{{toAction}}'];{% endfor %}
+            {% for alias in conf.alias %}
+            R['{{alias.alias}}'] = R['{{alias.actionName}}'];{% endfor %}
             R.modelName = "{{modelName}}";
             return R;
         }

@@ -1,6 +1,5 @@
-import re
 import coreapi
-import json
+from collections import OrderedDict
 from . import helpers
 
 
@@ -34,6 +33,7 @@ class SchemaConverter:
 
             point_api['commonUrlParams'] += url_params
             point_api['api'][action] = {
+                'actionName': action,
                 'url': url,
                 'method': link.action.upper(),
                 'contentType': link.encoding,
@@ -86,7 +86,23 @@ class SchemaConverter:
 
         return point_api
 
-    def convert(self, schema=None):
+
+    def sort_api(self, api_schema):
+        sorted_api_schema = OrderedDict()
+        for point_name in sorted(api_schema.keys()):
+            point_api = api_schema[point_name]
+            point_api['api'] = [
+                point_api['api'][name]
+                for name in sorted(point_api['api'].keys())
+            ]
+            point_api['alias'] = [
+                {'alias': name, 'actionName': point_api['alias'][name]}
+                for name in sorted(point_api['alias'].keys())
+            ]
+            sorted_api_schema[point_name] = point_api
+        return sorted_api_schema
+
+    def convert(self, schema=None, order=False):
         api_schema = {}
         schema = schema or self.schema
         for k, v in schema.data.items():
@@ -114,4 +130,6 @@ class SchemaConverter:
                     '',
                     1
                 )
+        if order:
+            api_schema = self.sort_api(api_schema)
         return api_schema, api_url_base

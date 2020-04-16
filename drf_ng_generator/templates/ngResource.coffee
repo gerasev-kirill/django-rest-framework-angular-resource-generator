@@ -30,11 +30,11 @@ angular.module("{{SERVICE_PREFIX_NAME}}Services", ['ngResource'])
         { {% for param in conf.commonUrlParams %}
             {{param}}: '@{{param}}',{% endfor %}
         },
-        { {% for actionName,actionConf in conf.api.items %}
-            "{{actionName}}":{
+        { {% for actionConf in conf.api %}
+            "{{actionConf.actionName}}":{
                 url: urlBase + "{{actionConf.url}}",
                 method: "{{actionConf.method}}",{% for on,ov in actionConf.options.items %}
-                {{on}}: {{ov}}{% endfor %}{% if actionName == 'login' or actionName == 'register' %}
+                {{on}}: {{ov}}{% endfor %}{% if actionConf.actionName == 'login' or actionConf.actionName == 'register' %}
                 interceptor: {
                     response: (response)->
                         data = response.data
@@ -43,7 +43,7 @@ angular.module("{{SERVICE_PREFIX_NAME}}Services", ['ngResource'])
                         {{SERVICE_PREFIX_NAME}}Auth.rememberMe = !!params.rememberMe
                         {{SERVICE_PREFIX_NAME}}Auth.save()
                         response.resource
-                }{% endif %}{% if actionName == 'logout' %}
+                }{% endif %}{% if actionConf.actionName == 'logout' %}
                 interceptor: {
                     response: (response)->
                         {{SERVICE_PREFIX_NAME}}Auth.clearUser()
@@ -53,8 +53,8 @@ angular.module("{{SERVICE_PREFIX_NAME}}Services", ['ngResource'])
             }{% endfor %}
         }
     )
-    {% for alias,toAction in conf.alias.items %}
-    R['{{alias}}'] = R['{{toAction}}']{% endfor %}
+    {% for alias in conf.alias %}
+    R['{{alias.alias}}'] = R['{{alias.actionName}}']{% endfor %}
     R.modelName = "{{modelName}}"
     R
 ])

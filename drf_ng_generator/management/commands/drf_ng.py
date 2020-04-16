@@ -26,7 +26,7 @@ class Command(BaseCommand):
             if ext not in ['.coffee', '.js']:
                 fpath += '.js'
                 ext = '.js'
-            app_api, api_url_base = converter.convert(schema)
+            app_api, api_url_base = converter.convert(schema, order=True)
             prefix = getattr(settings, 'DRFGEN_SERVICE_PREFIX_NAME', None) or getattr(settings, 'DRF_GENERATOR_SERVICE_PREFIX_NAME', None) or 'dj'
             resources = render_to_string(
                 'ngResource'+ext,
