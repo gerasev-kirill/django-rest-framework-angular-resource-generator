@@ -1,0 +1,162 @@
+{
+    "userlist": {
+        "alias": {
+            "find": "list",
+            "query": "list"
+        },
+        "api": {
+            "list": {
+                "actionName": "list",
+                "contentType": "",
+                "url": "/userlist/",
+                "options": {
+                    "cancellable": "true",
+                    "isArray": "true"
+                },
+                "action": "list",
+                "method": "GET",
+                "view": "UserListView"
+            }
+        },
+        "commonUrl": "/userlist/",
+        "commonUrlParams": []
+    },
+    "users": {
+        "alias": {
+            "find": "list",
+            "query": "list",
+            "findById": "retrieve",
+            "updateAttributes": "partialUpdate",
+            "deleteById": "destroy",
+            "destroyById": "destroy"
+        },
+        "api": {
+            "retrieve": {
+                "actionName": "retrieve",
+                "url": "/users/:id/",
+                "options": {
+                    "cancellable": "true"
+                },
+                "contentType": "",
+                "action": "retrieve",
+                "method": "GET",
+                "view": "UserViewset"
+            },
+            "create": {
+                "actionName": "create",
+                "contentType": "",
+                "url": "/users/",
+                "options": {},
+                "action": "create",
+                "method": "POST",
+                "view": "UserViewset"
+            },
+            "list": {
+                "actionName": "list",
+                "url": "/users/",
+                "method": "GET",
+                "contentType": "",
+                "view": "UserViewset",
+                "action": "list",
+                "options": {
+                    "cancellable": "true",
+                    "isArray": "true"
+                }
+            },
+            "testListRouteDecorator": {
+                "actionName": "testListRouteDecorator",
+                "url": "/users/test_list_route_decorator/",
+                "method": "GET",
+                "contentType": "",
+                "view": "UserViewset",
+                "action": "test_list_route_decorator",
+                "options": {
+                    "cancellable": "true",
+                    "isArray": "true"
+                }
+            },
+            "update": {
+                "actionName": "update",
+                "url": "/users/:id/",
+                "method": "PUT",
+                "contentType": "",
+                "view": "UserViewset",
+                "action": "update",
+                "options": {}
+            },
+            "partialUpdate": {
+                "actionName": "partialUpdate",
+                "url": "/users/:id/",
+                "method": "PATCH",
+                "contentType": "",
+                "view": "UserViewset",
+                "action": "partial_update",
+                "options": {}
+            },
+            "destroy": {
+                "actionName": "destroy",
+                "url": "/users/:id/",
+                "method": "DELETE",
+                "contentType": "",
+                "view": "UserViewset",
+                "action": "destroy",
+                "options": {}
+            },
+            "testDetailRouteDecorator": {
+                "actionName": "testDetailRouteDecorator",
+                "url": "/users/:id/test_detail_route_decorator/",
+                "method": "PUT",
+                "contentType": "",
+                "view": "UserViewset",
+                "action": "test_detail_route_decorator",
+                "options": {}
+            }
+        },
+        "commonUrl": "/users/:id/",
+        "commonUrlParams": [
+            "id"
+        ]
+    },
+    "custom": {
+        "commonUrl": "/custom/:id/",
+        "commonUrlParams": [
+            "id"
+        ],
+        "api": {
+            "testListRouteDecorator": {
+                "actionName": "testListRouteDecorator",
+                "url": "/custom/test_list_route_decorator/",
+                "method": "GET",
+                "contentType": "",
+                "view": "CustomViewset",
+                "action": "test_list_route_decorator",
+                "options": {
+                    "cancellable": "true",
+                    "isArray": "true"
+                }
+            },
+            "testDetailRouteDecorator": {
+                "actionName": "testDetailRouteDecorator",
+                "url": "/custom/:id/test_detail_route_decorator/",
+                "method": "PATCH",
+                "contentType": "",
+                "view": "CustomViewset",
+                "action": "test_detail_route_decorator",
+                "options": {}
+            },
+            "destroy": {
+                "actionName": "destroy",
+                "url": "/custom/:id/",
+                "method": "DELETE",
+                "contentType": "",
+                "view": "CustomViewset",
+                "action": "destroy",
+                "options": {}
+            }
+        },
+        "alias": {
+            "deleteById": "destroy",
+            "destroyById": "destroy"
+        }
+    }
+}

@@ -7,7 +7,7 @@ from drf_ng_generator.converter import SchemaConverter
 
 
 
-with open(os.path.join(settings.BASE_DIR, 'rest_schema.json')) as f:
+with open(os.path.join(settings.BASE_DIR, 'rest_schema.{mode}.json'.format(mode=schemas.API_MODE))) as f:
     REST_SCHEMA = json.load(f)
 
 
@@ -19,7 +19,7 @@ class TestGenerator(TestCase):
         generator = schemas.SchemaGenerator()
         schema = generator.get_schema()
         converter = SchemaConverter()
-        rest_schema, api_url_base = converter.convert(schema)
+        rest_schema, api_url_base = converter.convert(schema, ignore_viewset_names=True)
         rest_schema = json.loads(
             helpers.dumps_api_doc(rest_schema)
         )

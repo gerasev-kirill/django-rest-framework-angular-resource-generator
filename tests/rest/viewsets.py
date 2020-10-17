@@ -1,6 +1,13 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets, generics
-from rest_framework.decorators import detail_route, list_route
+try:
+    from rest_framework.decorators import detail_route, list_route
+    def action(detail=None, **kwargs):
+        if detail:
+            return detail_route(**kwargs)
+        return list_route(**kwargs)
+except ImportError:
+    from rest_framework.decorators import action
 
 
 from . import serializers
@@ -11,11 +18,11 @@ class UserViewset(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
 
-    @list_route()
+    @action(detail=False)
     def test_list_route_decorator(self, request):
         return
 
-    @detail_route(methods=['put'])
+    @action(methods=['put'], detail=True)
     def test_detail_route_decorator(self, request):
         return
 
@@ -27,11 +34,11 @@ class CustomViewset(viewsets.ViewSet):
     def destroy(self, request, *args, **kwargs):
         pass
 
-    @list_route()
+    @action(detail=False)
     def test_list_route_decorator(self, request):
         return
 
-    @detail_route(methods=['patch'])
+    @action(methods=['patch'], detail=True)
     def test_detail_route_decorator(self, request):
         return
 
