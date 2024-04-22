@@ -37,6 +37,12 @@ class SchemaGenerator(BaseSchemaGenerator):
 
         return paths, view_endpoints
 
+
+    def check_duplicate_operation_id(self, *args, **kwargs):
+        # подавляем дебильный вывод варнингов о дубликатах, т.к. они не имеют смысла
+        pass
+
+
     def get_schema(self, request=None, public=False):
         """
         Generate a OpenAPI schema.

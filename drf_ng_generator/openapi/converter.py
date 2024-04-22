@@ -125,7 +125,7 @@ class SchemaConverter:
         api_url_base = self.get_common_url(common_urls)
         if api_url_base == '/':
             api_url_base = ''
-        if api_url_base[-1] == '/':
+        if api_url_base and api_url_base[-1] == '/':
             api_url_base = api_url_base[:-1]
 
         for n in api_schema:
