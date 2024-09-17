@@ -43,7 +43,7 @@ class SchemaGenerator(BaseSchemaGenerator):
         pass
 
 
-    def get_schema(self, request=None, public=False):
+    def get_schema(self, request=None, public=False, x_django_only=False):
         """
         Generate a OpenAPI schema.
         """
@@ -56,22 +56,25 @@ class SchemaGenerator(BaseSchemaGenerator):
         for path, method, view, func_name in view_endpoints:
             if not self.has_view_permissions(path, method, view):
                 continue
+            
+            if not x_django_only:
+                operation = view.schema.get_operation(path, method)
+                components = view.schema.get_components(path, method)
+                for k in components.keys():
+                    if k not in components_schemas:
+                        continue
+                    if components_schemas[k] == components[k]:
+                        continue
+                    warnings.warn('Schema component "{}" has been overriden with a different value.'.format(k))
 
-            operation = view.schema.get_operation(path, method)
+                components_schemas.update(components)
+            else:
+                operation = {}
+
             operation['x-django'] = {
                 'view': view,
                 'function': func_name
             }
-            components = view.schema.get_components(path, method)
-            for k in components.keys():
-                if k not in components_schemas:
-                    continue
-                if components_schemas[k] == components[k]:
-                    continue
-                warnings.warn('Schema component "{}" has been overriden with a different value.'.format(k))
-
-            components_schemas.update(components)
-
             # Normalise path for any provided mount url.
             if path.startswith('/'):
                 path = path[1:]
@@ -85,9 +88,11 @@ class SchemaGenerator(BaseSchemaGenerator):
         # Compile final schema.
         schema = {
             'openapi': '3.0.2',
-            'info': self.get_info(),
+            'info': {},
             'paths': paths,
         }
+        if not x_django_only:
+            schema['info'] = self.get_info()
 
         if len(components_schemas) > 0:
             schema['components'] = {
